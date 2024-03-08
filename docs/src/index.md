@@ -3,8 +3,8 @@
 layout: home
 
 hero:
-  name: "My Awesome Project"
-  text: "A VitePress Site"
+  name: "Frontend Interview Questions"
+  text: "preparation materials for you"
   tagline: My great project tagline
   actions:
     - theme: brand
