@@ -1,4 +1,4 @@
-# 画布（canvas）
+# 画布 canvas 
 
 HTML5 的 canvas 元素使用 JavaScript 在网页上绘制图像，canvas本身是没有绘图能力的，所有的绘制工作必须在JS内部完成。
 

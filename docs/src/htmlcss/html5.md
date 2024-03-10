@@ -211,7 +211,7 @@ cookie、sessionStorage、localStorage共同点：
 - 都遵循同源协议
 - 都可以被用来在浏览器存储数据，而且都是字符串类型的键值对
 
-## 应用缓存|离线缓存
+## 应用缓存（离线缓存）
 
 使用 HTML5，通过创建 cache manifest 文件，可以轻松地创建 web 应用的离线版本。
 
