@@ -8,12 +8,14 @@ export default defineConfig({
   base: "/frontend-interview-questions/",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    outline: 'deep',
     outlineTitle: '本页目录',
 
     nav: [
       { text: 'Home', link: '/' },
       { text: 'JavaScript', link: '/javascript/base/1', activeMatch: '/javascript/' },
-      { text: 'HTMLCSS', link: '/htmlcss/css-1', activeMatch: '/htmlcss/' }
+      { text: 'HTMLCSS', link: '/htmlcss/css-1', activeMatch: '/htmlcss/' },
+      { text: 'Blog', link: '/blog/browser/processes-and-threads', activeMatch: '/blog/' }
     ],
 
     sidebar: {
@@ -47,6 +49,22 @@ export default defineConfig({
             },
             { text: 'ES6', link: '/javascript/es6' },
             { text: '手写', link: '/javascript/coding/1' },
+          ]
+        }
+      ],
+      '/blog/': [
+        {
+          text: '浏览器',
+          items: [
+            { text: '浏览器多进程多线程和JS单线程', link: '/blog/browser/processes-and-threads' },
+            { text: '从输入URL到页面加载的过程', link: '/blog/browser/when-you-enter-a-url' },
+            { text: 'HTTP请求头和响应头中cache-control的区别', link: '/blog/browser/cache-control-client-or-server' },
+          ]
+        },
+        {
+          text: '正则表达式',
+          items: [
+            { text: '正则表达式系列', link: '/blog/regexp/1' },
           ]
         }
       ]

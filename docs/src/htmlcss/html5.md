@@ -372,6 +372,34 @@ file_input.onChange = function() {
 
 ## 字体(@font-face)
 
+## 页面可见性（Page Visibility API） 可以有哪些用途？
+
+通过 visibilityState 的值检测页面当前是否可见，以及打开网页的时间等;
+在页面被切换到其他后台进程的时候，自动暂停音乐或视频的播放
+
+## 拆解url各部分
+
+```js
+location
+// URL:http://www.example.com/test.html?key=value＃PART
+location.href //返回完整的URL
+// https://www.example.com/test.html?key=value＃PART
+location.protocol //返回一个URL协议
+// https
+location.hostname //返回URL的主机名
+// www.example.com
+location.port //返回一个URL的端口号
+// 如果端口号是80,则返回空
+location.host //返回一个URL的主机名和端口
+// www.example.com(如果端口号是80,则不显示)
+location.pathname //返回的URL路径名
+// test.html
+location.search //返回一个URL的查询部分
+// ?key=value
+location.hash //返回一个URL的锚部分
+// ＃PART
+```
+
 ## 参考
 
 - :+1: [HTML5、CSS3完全使用手册（万字详解）](https://juejin.cn/post/6844904147590856717)
