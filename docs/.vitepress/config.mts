@@ -13,8 +13,14 @@ export default defineConfig({
 
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'JavaScript', link: '/interview/javascript/base/1', activeMatch: '/javascript/' },
-      { text: 'HTMLCSS', link: '/interview/htmlcss/css-1', activeMatch: '/htmlcss/' },
+      {
+        text: 'Interview',
+        items: [
+          { text: 'JavaScript', link: '/interview/javascript/base/1', activeMatch: '/javascript/' },
+          { text: 'HTMLCSS', link: '/interview/htmlcss/css-1', activeMatch: '/htmlcss/' },
+          { text: '浏览器', link: '/interview/browser/network', activeMatch: '/browser/' },
+        ]
+      },
       { text: 'Blog', link: '/blog/browser/processes-and-threads', activeMatch: '/blog/' }
     ],
 
@@ -44,11 +50,26 @@ export default defineConfig({
                 { text: "数据类型相关", link: '/interview/javascript/base/1' },
                 { text: "执行上下文、作用域、闭包、this", link: '/interview/javascript/base/2' },
                 { text: "构造函数、原型、原型链、继承", link: '/interview/javascript/base/3' },
-                { text: "浏览器：文档、事件相关", link: '/interview/javascript/base/4' }
+                { text: "浏览器：文档、事件相关", link: '/interview/javascript/base/4' },
+                { text: "其它", link: '/interview/javascript/base/5' },
+                { text: "ES6+", link: '/interview/javascript/base/es6' },
+                { text: "EventLoop", link: '/interview/javascript/base/event-loop' }
               ]
             },
-            { text: 'ES6', link: '/interview/javascript/es6' },
             { text: '手写', link: '/interview/javascript/coding/1' },
+          ]
+        }
+      ],
+      '/interview/browser/': [
+        {
+          text: '浏览器',
+          items: [
+            { text: "网络", link: '/interview/browser/network' },
+            { text: "跨域", link: '/interview/browser/cross-domain' },
+            { text: "输入URL", link: '/interview/browser/enter-a-url' },
+            { text: "优化1", link: '/interview/browser/optimize-1' },
+            { text: "回流重绘", link: '/interview/browser/reflow-repaint' },
+            { text: "SEO", link: '/interview/browser/seo' },
           ]
         }
       ],

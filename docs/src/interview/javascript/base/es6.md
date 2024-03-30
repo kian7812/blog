@@ -1,5 +1,5 @@
 
-# es6 + 
+# ES6+ 
 
 ## Promise 是什么
 
@@ -13,15 +13,15 @@ Promise 是一个 ECMAScript 6 提供的类，目的是更加优雅地书写复�
 4. then 方法可以接收两个回调函数作为参数，第一个回调函数是 Promise 对象的状态改变为 resoved 是调用，第二个回调函数是 Promise 对象的状态变为 rejected 时调用。其中第二个参数可以省略。
 5. catch 方法，该方法相当于最近的 then 方法的第二个参数，指向 reject 的回调函数，另一个作用是，在执行 resolve 回调函数时，如果出错，抛出异常，不会停止陨星，而是进入 catch 方法中。
 
-## 除了 then 块以外，其它两种块能否多次使用？
+### 除了 then 块以外，其它两种块能否多次使用？
 
 可以，finally 与 then 一样会按顺序执行，但是 catch 块只会执行第一个，除非 catch 块里有异常。所以最好只安排一个 catch 和 finally 块。
 
-## then 块如何中断？
+### then 块如何中断？
 
 then 块默认会向下顺序执行，return 是不能中断的，可以通过 throw 来跳转至 catch 实现中断。
 
-## 什么是 async/await
+### 什么是 async/await
 
 async/await 是以更舒适的方式使用 promise 的一种特殊语法，同时它也非常易于理解和使用。
 
