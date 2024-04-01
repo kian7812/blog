@@ -56,7 +56,12 @@ export default defineConfig({
                 { text: "EventLoop", link: '/interview/javascript/base/event-loop' }
               ]
             },
-            { text: '手写', link: '/interview/javascript/coding/1' },
+            {
+              text: '手写',
+              items: [
+                { text: '经典', link: '/interview/javascript/coding/1' }
+              ]
+            }
           ]
         }
       ],
