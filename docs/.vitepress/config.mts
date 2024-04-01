@@ -59,7 +59,10 @@ export default defineConfig({
             {
               text: '手写',
               items: [
-                { text: '经典', link: '/interview/javascript/coding/1' }
+                { text: '经典1', link: '/interview/javascript/coding/1' },
+                { text: '经典2', link: '/interview/javascript/coding/2' },
+                { text: 'Promise', link: '/interview/javascript/coding/promise' },
+                { text: '正则', link: '/interview/javascript/coding/reg' }
               ]
             }
           ]
