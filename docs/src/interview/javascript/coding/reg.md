@@ -50,7 +50,7 @@ const formatPrice = (number) => {
 console.log(formatPrice(123456789.3343))
 ```
 
-## templateRender
+## 模板字符串解析功能 templateRender
 
 ```js
 const render = (template, data) => {
@@ -73,7 +73,7 @@ console.log(render(template, data))
 
 ## 参考
 
-- *fe-handwriting https://github.com/qianlongo/fe-handwriting/tree/master
+- *胖头鱼fe-handwriting https://github.com/qianlongo/fe-handwriting/tree/master
 
 - [有了这25个正则表达式，代码效率提高80%](https://juejin.cn/post/7016871226899431431)
 - [面试中会遇到的正则题](https://juejin.cn/post/6844903586711732237)
