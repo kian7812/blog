@@ -16,9 +16,10 @@ export default defineConfig({
       {
         text: 'Interview',
         items: [
-          { text: 'JavaScript', link: '/interview/javascript/base/1', activeMatch: '/javascript/' },
           { text: 'HTMLCSS', link: '/interview/htmlcss/css-1', activeMatch: '/htmlcss/' },
-          { text: '浏览器', link: '/interview/browser/network', activeMatch: '/browser/' },
+          { text: 'JavaScript', link: '/interview/javascript/base/1', activeMatch: '/javascript/' },
+          { text: 'Browser', link: '/interview/browser/network', activeMatch: '/browser/' },
+          { text: 'Algorithm', link: '/interview/algorithm/sort', activeMatch: '/algorithm/' },
         ]
       },
       { text: 'Blog', link: '/blog/browser/processes-and-threads', activeMatch: '/blog/' }
@@ -70,7 +71,7 @@ export default defineConfig({
       ],
       '/interview/browser/': [
         {
-          text: '浏览器',
+          text: '浏览器相关题',
           items: [
             { text: "网络", link: '/interview/browser/network' },
             { text: "跨域", link: '/interview/browser/cross-domain' },
@@ -78,6 +79,14 @@ export default defineConfig({
             { text: "优化1", link: '/interview/browser/optimize-1' },
             { text: "回流重绘", link: '/interview/browser/reflow-repaint' },
             { text: "SEO", link: '/interview/browser/seo' },
+          ]
+        }
+      ],
+      '/interview/algorithm/': [
+        {
+          text: '前端算法面试题',
+          items: [
+            { text: "排序", link: '/interview/algorithm/sort' },
           ]
         }
       ],
