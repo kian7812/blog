@@ -17,17 +17,27 @@ https://chodocs.cn/algorithm/guide/
 
 刷题路线图，以下专题顺序仅个人以及面试高频点来总结的刷题方式，大家可以根据自己的想法来组合。
 
-## 参考
+## 我的刷题流程*
 
 - **笨猪爆破组-追求把问题讲明白，写清晰好懂的题解（题解思路、注释、命名都好）  https://leetcode.cn/u/xiao_ben_zhu/
+- **sgf(全站排名32,439) https://leetcode.cn/u/escapee11/
 - **力扣官方题解 https://leetcode.cn/u/leetcode-solution/ 
+- *fe-handwriting https://github.com/qianlongo/fe-handwriting/tree/master
 
+**我的刷题流程：（入门）**
 
+```
+1. 可以是文章里的算法题，汇总的常出现的
+2. 打开leetcode，打开上面两个同学主页，然后打开所有题解列表
+3. 在文章根据关键词或者题号，
+    - 直接在第2步里搜索，找到leetcode对应的题地址，认真读题理解
+    - 在上面两位同学题解里看看是否有对应题解，有则参考，如果没有直接到该题的力扣里找参考
+    - 直接参考就行，开始最好别自己硬造。思路是需要临摹的。
+```
 
+## 参考目录
 
-## 算法篇
-
-https://github.com/qianlongo/fe-handwriting/tree/master
+算法篇 https://github.com/qianlongo/fe-handwriting/tree/master
 
 （分类在 sidebar 那里弄吧，leetcode目录只存放）
 
@@ -55,7 +65,7 @@ https://github.com/qianlongo/fe-handwriting/tree/master
 
 寻找数组的中心下标✅724
 
-LRU最近最少使用✅
+LRU最近最少使用✅146
 
 菲波那切数列✅
 
@@ -63,28 +73,28 @@ LRU最近最少使用✅
 
 ### 字符串
 
-验证回文串
+验证回文串✅
 
-删除一个字符串，是否能成为回文
+删除一个字符串，是否能成为回文✅
 
-添加与搜索单词 - 数据结构设计
+添加与搜索单词 - 数据结构设计✅
 
-反转字符串
+反转字符串✅
 
-字符串中的第一个唯一字符
+字符串中的第一个唯一字符✅
 
-有效的字母异位词
+有效的字母异位词✅
 
-字符串转数字
+字符串转数字✅
 
-整数反转
+整数反转✅
 
-实现 strStr() 函数。
+实现 strStr() 函数。✅
 
-最长公共前缀
+最长公共前缀✅
 
-比较版本号
+比较版本号✅
 
 ### 链表
 
-奇偶链表
+奇偶链表✅
