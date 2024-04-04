@@ -84,9 +84,29 @@ export default defineConfig({
       ],
       '/interview/algorithm/': [
         {
-          text: '前端算法面试题',
+          text: '前端算法题',
           items: [
+            { text: "导读", link: '/interview/algorithm/guide.md' },
+            { text: "数据结构", link: '/interview/algorithm/data-structure.md' },
             { text: "排序", link: '/interview/algorithm/sort' },
+          ]
+        },
+        {
+          text: 'LeetCode',
+          items: [
+            { text: "1. 两数之和", link: '/interview/algorithm/leetcode/1.md' },
+            { text: "3. 无重复字符的最长子串", link: '/interview/algorithm/leetcode/3.md' },
+            { text: "26. 删除有序数组中的重复项", link: '/interview/algorithm/leetcode/26.md' },
+            { text: "35. 搜索插入位置", link: '/interview/algorithm/leetcode/35.md' },
+            { text: "88. 合并两个有序数组", link: '/interview/algorithm/leetcode/88.md' },
+            { text: "136. 只出现一次的数字", link: '/interview/algorithm/leetcode/136.md' },
+            { text: "146. LRU 缓存", link: '/interview/algorithm/leetcode/146.md' },
+            { text: "217. 存在重复元素", link: '/interview/algorithm/leetcode/217.md' },
+            { text: "283. 移动零", link: '/interview/algorithm/leetcode/283.md' },
+            { text: "349. 两个数组的交集", link: '/interview/algorithm/leetcode/349.md' },
+            { text: "350. 两个数组的交集 II", link: '/interview/algorithm/leetcode/350.md' },
+            { text: "704. 二分查找", link: '/interview/algorithm/leetcode/704.md' },
+            { text: "724. 寻找数组的中心下标", link: '/interview/algorithm/leetcode/724.md' },
           ]
         }
       ],
