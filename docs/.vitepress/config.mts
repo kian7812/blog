@@ -19,7 +19,7 @@ export default defineConfig({
           { text: 'HTMLCSS', link: '/interview/htmlcss/css-1', activeMatch: '/htmlcss/' },
           { text: 'JavaScript', link: '/interview/javascript/base/1', activeMatch: '/javascript/' },
           { text: 'Browser', link: '/interview/browser/network', activeMatch: '/browser/' },
-          { text: 'Algorithm', link: '/interview/algorithm/sort', activeMatch: '/algorithm/' },
+          { text: 'Algorithm', link: '/interview/algorithm/guide', activeMatch: '/algorithm/' },
         ]
       },
       { text: 'Blog', link: '/blog/browser/processes-and-threads', activeMatch: '/blog/' }
