@@ -112,6 +112,7 @@ export default defineConfig({
             { text: "217. 存在重复元素", link: '/interview/algorithm/leetcode/217.md' },
             { text: "242. 有效的字母异位词（简单）", link: '/interview/algorithm/leetcode/242.md' },
             { text: "283. 移动零", link: '/interview/algorithm/leetcode/283.md' },
+            { text: "322. 零钱兑换（todo）", link: '/interview/algorithm/leetcode/322.md' },
             { text: "328. 奇偶链表（中等）", link: '/interview/algorithm/leetcode/328.md' },
             { text: "344. 反转字符串（简单）", link: '/interview/algorithm/leetcode/344.md' },
             { text: "349. 两个数组的交集", link: '/interview/algorithm/leetcode/349.md' },
@@ -131,6 +132,12 @@ export default defineConfig({
             { text: '浏览器多进程多线程和JS单线程', link: '/blog/browser/processes-and-threads' },
             { text: '从输入URL到页面加载的过程', link: '/blog/browser/when-you-enter-a-url' },
             { text: 'HTTP请求头和响应头中cache-control的区别', link: '/blog/browser/cache-control-client-or-server' },
+          ]
+        },
+        {
+          text: 'JavaScript',
+          items: [
+            { text: 'Proxy & Reflect', link: '/blog/javascript/proxy-reflect' },
           ]
         },
         {
