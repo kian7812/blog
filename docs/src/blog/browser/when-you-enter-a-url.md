@@ -1,5 +1,5 @@
 
-# 从输入URL到页面加载的过程？如何由一道题完善自己的前端知识体系！
+# 从输入URL到页面加载的过程？如何由一道题完善自己的前端知识体系*
 
 ## 前言（作者述）
 
@@ -1602,4 +1602,4 @@ Javascript引擎基础GC方案是（simple GC）：mark and sweep（标记清除
 ## 附录
 
 - 个人博客 http://www.dailichun.com/2018/03/12/whenyouenteraurl.html
-- segmentfault https://segmentfault.com/a/1190000013662126
+- 撒网要见鱼 https://segmentfault.com/a/1190000013662126

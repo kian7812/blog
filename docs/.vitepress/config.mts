@@ -20,6 +20,7 @@ export default defineConfig({
           { text: 'JavaScript', link: '/interview/javascript/base/1', activeMatch: '/javascript/' },
           { text: 'Browser', link: '/interview/browser/network', activeMatch: '/browser/' },
           { text: 'Algorithm', link: '/interview/algorithm/guide', activeMatch: '/algorithm/' },
+          { text: 'Vue', link: '/interview/vue/guide', activeMatch: '/vue/' },
         ]
       },
       { text: 'Blog', link: '/blog/browser/processes-and-threads', activeMatch: '/blog/' }
@@ -82,6 +83,23 @@ export default defineConfig({
           ]
         }
       ],
+      '/interview/vue/': [
+        {
+          text: 'Vue题',
+          items: [
+            { text: "导读", link: '/interview/vue/guide' },
+            { text: "Vue3基础", link: '/interview/vue/1-base' },
+            { text: "Vue3响应式", link: '/interview/vue/1-reactivity' },
+            { text: "Vue2基础", link: '/interview/vue/2-base' },
+            { text: "Vue2响应式", link: '/interview/vue/2-reactivity' },
+            { text: "Vue2nextTick", link: '/interview/vue/2-nexttick' },
+            { text: "Vue2渲染更新", link: '/interview/vue/2-renderpatch' },
+            { text: "Vue2编译", link: '/interview/vue/2-compile' },
+            { text: "Vue2ZZZ", link: '/interview/vue/2-zzz' },
+            { text: "Vue优化", link: '/interview/vue/optimize' },
+          ]
+        }
+      ],
       '/interview/algorithm/': [
         {
           text: '前端算法题',
@@ -129,21 +147,30 @@ export default defineConfig({
         {
           text: '浏览器',
           items: [
-            { text: '浏览器多进程多线程和JS单线程', link: '/blog/browser/processes-and-threads' },
-            { text: '从输入URL到页面加载的过程', link: '/blog/browser/when-you-enter-a-url' },
+            { text: '浏览器多进程多线程和JS单线程*', link: '/blog/browser/processes-and-threads' },
+            { text: '从输入URL到页面加载的过程*', link: '/blog/browser/when-you-enter-a-url' },
             { text: 'HTTP请求头和响应头中cache-control的区别', link: '/blog/browser/cache-control-client-or-server' },
           ]
         },
         {
           text: 'JavaScript',
           items: [
-            { text: 'Proxy & Reflect', link: '/blog/javascript/proxy-reflect' },
+            { text: 'Proxy&Reflect', link: '/blog/javascript/proxy-reflect' },
           ]
         },
         {
           text: '正则表达式',
           items: [
             { text: '正则表达式系列', link: '/blog/regexp/1' },
+          ]
+        },
+        {
+          text: 'Vue',
+          items: [
+            { text: 'Vue3中的响应式原理*', link: '/blog/vue/1/reactivity' },
+            { text: 'Vue2响应式原理概述*', link: '/blog/vue/2/reactivity' },
+            { text: 'Vue2批量异步更新与nextTick原理', link: '/blog/vue/2/nexttick' },
+            { text: 'Vue2组件渲染流程', link: '/blog/vue/2/renderpatch' },
           ]
         }
       ]
