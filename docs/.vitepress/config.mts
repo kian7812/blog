@@ -85,17 +85,28 @@ export default defineConfig({
       ],
       '/interview/vue/': [
         {
-          text: 'Vue题',
+          text: 'Vue',
           items: [
-            { text: "导读", link: '/interview/vue/guide' },
-            { text: "Vue3基础", link: '/interview/vue/1-base' },
-            { text: "Vue3响应式", link: '/interview/vue/1-reactivity' },
-            { text: "Vue2基础", link: '/interview/vue/2-base' },
-            { text: "Vue2响应式", link: '/interview/vue/2-reactivity' },
-            { text: "Vue2nextTick", link: '/interview/vue/2-nexttick' },
-            { text: "Vue2渲染更新", link: '/interview/vue/2-renderpatch' },
-            { text: "Vue2编译", link: '/interview/vue/2-compile' },
-            { text: "Vue2ZZZ", link: '/interview/vue/2-zzz' },
+            { text: "Guide", link: '/interview/vue/guide' },
+
+          ]
+        },
+        {
+          text: 'Vue3',
+          items: [
+            { text: "基础", link: '/interview/vue/1-base' },
+            { text: "响应式", link: '/interview/vue/1-reactivity' },
+          ]
+        },
+        {
+          text: 'Vue2',
+          items: [
+            { text: "基础", link: '/interview/vue/2-base' },
+            { text: "响应式", link: '/interview/vue/2-reactivity' },
+            { text: "nextTick", link: '/interview/vue/2-nexttick' },
+            { text: "渲染更新", link: '/interview/vue/2-renderpatch' },
+            { text: "编译", link: '/interview/vue/2-compile' },
+            { text: "ZZZ", link: '/interview/vue/2-zzz' },
             { text: "Vue优化", link: '/interview/vue/optimize' },
           ]
         }

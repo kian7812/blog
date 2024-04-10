@@ -88,3 +88,82 @@ WeakMap 全局
 ```
 
 
+## Vue3计算属性实现原理
+
+https://juejin.cn/post/7137149613223444488（清风）
+
+### 首先计算属性特性
+
+- 懒计算，如果计算属性没有在模板或者逻辑中使用，它是不会进行任何计算的。
+- 缓存，只有当计算属性中依赖的响应式数据 发生改变时，计算属性才会重新计算出新值。
+- 支持任意值、值的设置。
+
+### 在说下原理实现
+
+1. 计算属性 computed 本身就是一个 Effect，默认情况下 computed 是不会进行计算的。
+2. 同时也是一个响应式属性。
+3. 计算属性内部维护了一些重要的属性：_value 缓存计算值，_dirty判断数据是否脏了，脏了就需要重新计算，（创建时为true不用计算立刻计算），dep 储存依赖该属性的Effects，effect 自身Effect实例，它依赖的响应式数据，如果有改变会触发trigger通知。
+
+4. 当我们使用了该 computed 时，访问 computed 的 getter 属性。会发生：
+  - 调用 this.effect.run() 执行当前 computed 的 getter 方法，获得返回值保存进入 this._value 记录。
+  - 将 this._dirty 重置为 false，利用 _dirty 和 _value 实现缓存的特性。
+  - 同时调用 trackRefValue 收集当前 activeEffect ，将当前活跃的 Effect 存储到 computed 的 dep 属性中，进行依赖收集。
+
+5. 之后，如果 computed 依赖的响应式数据发生改变，会发生：
+  - 首先，computed 中依赖的响应式数据发生改变。会重新调用当前 computed 的 effect （scheduler）通知依赖于该 computed 的 effects 重新执行。
+  - 当依赖于该 computed 的 effect 重新执行时，会重新访问到 computed 的 getter 此时会重新计算 computed 中的值，得到更新后的 value 进行重新缓存。
+
+简单来说，所谓 computed 的核心实现思路就是如此。
+
+6. 理解补充：当依赖的属性发生变化后，不是立刻get重新计算，而是：
+  - scheduler中dirty为true
+  - scheduler中通知依赖该计算属性的Effects重新run，
+  - 这些Effects重新run时，此时会触发计算属性的get，同时发现脏了，才会重新允许该计算属性。同时dirty置为false。
+  - 注意，get触发需要（依赖该计算属性的Effects重新run）。
+  - scheduler的执行相当于响应式属性setter执行。
+
+```js
+export class ComputedRefImpl<T> {
+  public dep?: Dep = undefined
+  private _value!: T
+  public readonly effect: ReactiveEffect<T>
+  public readonly __v_isRef = true
+  // public readonly [ReactiveFlags.IS_READONLY]: boolean = false
+  public _dirty = true
+  // public _cacheable: boolean
+
+  constructor(
+    getter: ComputedGetter<T>,
+    private readonly _setter: ComputedSetter<T>,
+    // isReadonly: boolean,
+    // isSSR: boolean
+  ) {
+    this.effect = new ReactiveEffect(getter, () => {
+      if (!this._dirty) {
+        this._dirty = true
+        triggerRefValue(this)
+      }
+    })
+    this.effect.computed = this
+    // this.effect.active = this._cacheable = !isSSR
+    // this[ReactiveFlags.IS_READONLY] = isReadonly
+  }
+
+  get value() {
+    // the computed ref may get wrapped by other proxies e.g. readonly() #3376
+    const self = toRaw(this)
+    trackRefValue(self)
+    if (self._dirty || !self._cacheable) {
+      self._dirty = false
+      self._value = self.effect.run()!
+    }
+    return self._value
+  }
+
+  set value(newValue: T) {
+    this._setter(newValue)
+  }
+}
+```
+
+补充：ReactiveEffect 中第二个函数为一个 scheduler ，不传入第二个参数时当当前 Effect 依赖的响应式数据发生变化后 Effect 中传入的第一个函数会立即执行。当传入第二个函数时，当第一个参数中依赖的响应式数据变化并不会执行传入的 getter 而是回执行对应的第二个参数 scheduler。
