@@ -21,6 +21,7 @@ export default defineConfig({
           { text: 'Browser', link: '/interview/browser/network', activeMatch: '/browser/' },
           { text: 'Algorithm', link: '/interview/algorithm/guide', activeMatch: '/algorithm/' },
           { text: 'Vue', link: '/interview/vue/guide', activeMatch: '/vue/' },
+          { text: 'React', link: '/interview/react/base', activeMatch: '/react/' },
         ]
       },
       { text: 'Blog', link: '/blog/browser/processes-and-threads', activeMatch: '/blog/' }
@@ -110,6 +111,26 @@ export default defineConfig({
             { text: "Vue优化", link: '/interview/vue/optimize' },
           ]
         }
+      ],
+      '/interview/react/': [
+        {
+          text: 'React题',
+          items: [
+            { text: "导读", link: '/interview/react/guide' },
+            { text: "基础", link: '/interview/react/base' },
+            { text: "React18", link: '/interview/react/18' },
+            { text: "事件", link: '/interview/react/event' },
+            { text: "高阶组件", link: '/interview/react/hoc' },
+            { text: "Hooks", link: '/interview/react/hooks' },
+            { text: "Fiber", link: '/interview/react/fiber' },
+            { text: "Diff", link: '/interview/react/diff' },
+            { text: "路由", link: '/interview/react/router' },
+            { text: "状态管理", link: '/interview/react/store' },
+            { text: "优化", link: '/interview/react/optimize' },
+            { text: "SSR", link: '/interview/react/ssr' },
+
+          ]
+        },
       ],
       '/interview/algorithm/': [
         {
