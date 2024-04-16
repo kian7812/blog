@@ -23,6 +23,7 @@ export default defineConfig({
           { text: 'Vue', link: '/interview/vue/guide', activeMatch: '/vue/' },
           { text: 'React', link: '/interview/react/base', activeMatch: '/react/' },
           { text: 'Webpack', link: '/interview/webpack/guide', activeMatch: '/webpack/' },
+          { text: 'Vite', link: '/interview/vite/base', activeMatch: '/vite/' },
         ]
       },
       { text: 'Blog', link: '/blog/browser/processes-and-threads', activeMatch: '/blog/' }
@@ -152,9 +153,12 @@ export default defineConfig({
       ],
       '/interview/vite/': [
         {
-          text: 'Vite题',
+          text: 'Vite面试题',
           items: [
-            { text: "导读", link: '/interview/vite/guide' },
+            { text: "基础", link: '/interview/vite/base' },
+            { text: "优化", link: '/interview/vite/optimize' },
+            { text: "插件", link: '/interview/vite/plugin' },
+            { text: "配置", link: '/interview/vite/setting' },
           ]
         },
       ],
