@@ -22,6 +22,7 @@ export default defineConfig({
           { text: 'Algorithm', link: '/interview/algorithm/guide', activeMatch: '/algorithm/' },
           { text: 'Vue', link: '/interview/vue/guide', activeMatch: '/vue/' },
           { text: 'React', link: '/interview/react/base', activeMatch: '/react/' },
+          { text: 'Webpack', link: '/interview/webpack/guide', activeMatch: '/webpack/' },
         ]
       },
       { text: 'Blog', link: '/blog/browser/processes-and-threads', activeMatch: '/blog/' }
@@ -129,6 +130,31 @@ export default defineConfig({
             { text: "优化", link: '/interview/react/optimize' },
             { text: "SSR", link: '/interview/react/ssr' },
 
+          ]
+        },
+      ],
+      '/interview/webpack/': [
+        {
+          text: 'Webpack题',
+          items: [
+            { text: "导读", link: '/interview/webpack/guide' },
+            { text: "基础", link: '/interview/webpack/base' },
+            { text: "Chunk", link: '/interview/webpack/chunk' },
+            { text: "Loader", link: '/interview/webpack/loader' },
+            { text: "Plugin", link: '/interview/webpack/plugin' },
+            { text: "HMR", link: '/interview/webpack/hmr' },
+            { text: "TreeShaking", link: '/interview/webpack/tree-shaking' },
+            { text: "Webpack5", link: '/interview/webpack/5' },
+            { text: "优化", link: '/interview/webpack/optimize' },
+            { text: "Bundle打包后", link: '/interview/webpack/bundle' },
+          ]
+        },
+      ],
+      '/interview/vite/': [
+        {
+          text: 'Vite题',
+          items: [
+            { text: "导读", link: '/interview/vite/guide' },
           ]
         },
       ],
