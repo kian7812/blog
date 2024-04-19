@@ -24,6 +24,7 @@ export default defineConfig({
           { text: 'React', link: '/interview/react/base', activeMatch: '/react/' },
           { text: 'Webpack', link: '/interview/webpack/guide', activeMatch: '/webpack/' },
           { text: 'Vite', link: '/interview/vite/base', activeMatch: '/vite/' },
+          { text: 'Nextjs', link: '/interview/nextjs/base', activeMatch: '/nextjs/' },
         ]
       },
       { text: 'Blog', link: '/blog/browser/processes-and-threads', activeMatch: '/blog/' }
@@ -159,6 +160,20 @@ export default defineConfig({
             { text: "优化", link: '/interview/vite/optimize' },
             { text: "插件", link: '/interview/vite/plugin' },
             { text: "配置", link: '/interview/vite/setting' },
+          ]
+        },
+      ],
+      '/interview/nextjs/': [
+        {
+          text: 'Nextjs面试题',
+          items: [
+            { text: "基础", link: '/interview/nextjs/base' },
+            { text: "App路由迁移", link: '/interview/nextjs/app-router-migration' },
+            { text: "优化", link: '/interview/nextjs/optimize' },
+            { text: "渲染机制", link: '/interview/nextjs/rendering' },
+            { text: "QA1", link: '/interview/nextjs/qa1' },
+            { text: "QA2", link: '/interview/nextjs/qa2' },
+            { text: "Routing", link: '/interview/nextjs/routing' },
           ]
         },
       ],
