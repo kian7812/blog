@@ -1,8 +1,8 @@
 # ReactRouter
 
 模式	实现方式	路由url表现
-HashRouter	监听url hash值实现	http://localhost:3000/#/about
-BrowerRouter	h5的 history.pushState API实现	http://localhost:3000/about
+HashRouter	监听url hash值实现	`http://localhost:3000/#/about`
+BrowerRouter	h5的 history.pushState API实现	`http://localhost:3000/about`
 
 
 react-router-dom有哪些组件

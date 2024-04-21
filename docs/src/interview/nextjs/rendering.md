@@ -360,7 +360,7 @@ export const getStaticProps = async ({ params }) => {
 
 列表页面可以增量生成，那么详情页呢？
 
-若我们访问不存在的 id，比如 http://localhost:3000/blog/4，页面会显示 404。
+若我们访问不存在的 id，比如 `http://localhost:3000/blog/4`，页面会显示 404。
 
 getStaticPaths 方法中还有一个参数 fallback 用于控制未生成静态页面的渲染方式。
 
@@ -403,7 +403,7 @@ fallback 有 3 个值
 
 ![nextjs2](/assets/images/nextjs2.png)
 
-可以在左侧 .next/server 目录下，可以看到生成的静态文件，再次访问 http://localhost:3000/blog/4 后，可以看新生成了4.html.
+可以在左侧 .next/server 目录下，可以看到生成的静态文件，再次访问 `http://localhost:3000/blog/4` 后，可以看新生成了4.html.
 
 revalidate会额外导致服务器性能开销，20s 生成一次页面是没必要的，比如一些博客网站和新闻网站，文章详情变更没那么频繁。
 
