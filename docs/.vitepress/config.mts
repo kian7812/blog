@@ -12,7 +12,7 @@ export default defineConfig({
     outlineTitle: '本页目录',
 
     nav: [
-      { text: 'Home', link: '/' },
+      // { text: 'Home', link: '/' },
       {
         text: 'Interview',
         items: [
@@ -22,9 +22,10 @@ export default defineConfig({
           { text: 'Algorithm', link: '/interview/algorithm/guide', activeMatch: '/algorithm/' },
           { text: 'Vue', link: '/interview/vue/guide', activeMatch: '/vue/' },
           { text: 'React', link: '/interview/react/base', activeMatch: '/react/' },
-          { text: 'Webpack', link: '/interview/webpack/guide', activeMatch: '/webpack/' },
+          { text: 'Webpack', link: '/interview/webpack/base', activeMatch: '/webpack/' },
           { text: 'Vite', link: '/interview/vite/base', activeMatch: '/vite/' },
           { text: 'Nextjs', link: '/interview/nextjs/base', activeMatch: '/nextjs/' },
+          { text: 'Nuxt', link: '/interview/nuxt/base', activeMatch: '/nuxt/' },
         ]
       },
       { text: 'Blog', link: '/blog/browser/processes-and-threads', activeMatch: '/blog/' }
@@ -177,6 +178,16 @@ export default defineConfig({
           ]
         },
       ],
+      '/interview/nuxt/': [
+        {
+          text: 'Nuxt3面试题',
+          items: [
+            { text: "基础", link: '/interview/nuxt/base' },
+            { text: "项目", link: '/interview/nextjs/project' },
+            { text: "QA1", link: '/interview/nextjs/qa1' },
+          ]
+        },
+      ],
       '/interview/algorithm/': [
         {
           text: '前端算法题',
@@ -254,11 +265,11 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://github.com/yangxqian12/frontend-interview-questions' }
     ]
   },
   head: [
-    ['link', { rel: 'shortcut icon', href: '/favicon.ico' }],
-    ['link', { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    ['link', { rel: 'shortcut icon', href: '/frontend-interview-questions/favicon.ico' }],
+    ['link', { rel: 'icon', type: 'image/x-icon', href: '/frontend-interview-questions/favicon.ico' }],
   ],
 })
