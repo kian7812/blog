@@ -183,8 +183,8 @@ export default defineConfig({
           text: 'Nuxt3面试题',
           items: [
             { text: "基础", link: '/interview/nuxt/base' },
-            { text: "项目", link: '/interview/nextjs/project' },
-            { text: "QA1", link: '/interview/nextjs/qa1' },
+            { text: "多语言", link: '/interview/nuxt/i18n' },
+            { text: "QA1", link: '/interview/nuxt/qa1' },
           ]
         },
       ],
