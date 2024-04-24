@@ -169,12 +169,12 @@ export default defineConfig({
           text: 'Nextjs面试题',
           items: [
             { text: "基础", link: '/interview/nextjs/base' },
-            { text: "App路由迁移", link: '/interview/nextjs/app-router-migration' },
-            { text: "优化", link: '/interview/nextjs/optimize' },
+            { text: "AppRouter迁移", link: '/interview/nextjs/app-router-migration' },
             { text: "渲染机制", link: '/interview/nextjs/rendering' },
+            { text: "Routing", link: '/interview/nextjs/routing' },
+            { text: "优化", link: '/interview/nextjs/optimize' },
             { text: "QA1", link: '/interview/nextjs/qa1' },
             { text: "QA2", link: '/interview/nextjs/qa2' },
-            { text: "Routing", link: '/interview/nextjs/routing' },
           ]
         },
       ],

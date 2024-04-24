@@ -1,6 +1,6 @@
 # 渲染机制
 
-## 理解 Next.js 中的 CSR、SSR、SSG、ISR 以及 Streaming
+## *理解 Next.js 中的 CSR、SSR、SSG、ISR 以及 Streaming
 
 https://juejin.cn/post/7162775935828115469
 
@@ -407,9 +407,9 @@ fallback 有 3 个值
 
 revalidate会额外导致服务器性能开销，20s 生成一次页面是没必要的，比如一些博客网站和新闻网站，文章详情变更没那么频繁。
 
-**On-demand Revalidation（按需增量生成）**
+#### On-demand Revalidation（按需增量生成）✅
 
-自从 next v12.2.0 开始支持按需增量生成，我们可以在 page 目录下新建一个 pages/api/revalidate.js接口，用于触发增量生成。
+自从 next v12.2.0 开始支持按需增量生成，**我们可以在 page 目录下新建一个 pages/api/revalidate.js接口，`用于触发增量生成`**。
 ```js
 // pages/api/revalidate.js
 
@@ -422,14 +422,23 @@ export default async function handler(req, res) {
   try {
     // path 为要触发的实际路径
     // e.g. for "/blog/[id]" this should be "/blog/5"
-    await res.revalidate(req.query.path)
+    await res.revalidate(req.query.path) // 重新生成
     return res.json({ revalidated: true })
   } catch (err) {
     return res.status(500).send('Error revalidating')
   }
 }
 ```
-比如我们在数据库中增加了 2 条数据，此时访问` https://localhost:3000/api/revalidate?secret=<token>&path=/blog/5`，便可以触发，生成新的静态页面了。
+**比如我们在数据库中增加了 2 条数据**，此时访问`/api/revalidate?secret=<token>&path=/blog/5`，**便可以触发，`生成新的静态页面了`**。
+
+:::info
+- 这个接口是对外使用的，比如管理的发布新文章后，请求这个接口；
+- revalidate是重新生成的意思；
+- revalidate(path) path是重新触发生成的地址，比如/blog/5；
+- 意思就是服务端自己通过revalidate('/blog/5')访问/blog/5来重新生成/blog/5的页面
+- 在这个接口handler里可以批量生成，就是多次调用revalidate(..)异步的。
+- 具体参考 nextjs-pages-router-starter
+:::
 
 ### Server component
 
