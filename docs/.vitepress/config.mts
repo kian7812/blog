@@ -26,6 +26,7 @@ export default defineConfig({
           { text: 'Vite', link: '/interview/vite/base', activeMatch: '/vite/' },
           { text: 'Nextjs', link: '/interview/nextjs/base', activeMatch: '/nextjs/' },
           { text: 'Nuxt', link: '/interview/nuxt/base', activeMatch: '/nuxt/' },
+          { text: 'Performance', link: '/interview/performance/guide', activeMatch: '/performance/' },
         ]
       },
       { text: 'Blog', link: '/blog/browser/processes-and-threads', activeMatch: '/blog/' }
@@ -99,8 +100,14 @@ export default defineConfig({
         {
           text: 'Vue3',
           items: [
-            { text: "基础", link: '/interview/vue/1-base' },
-            { text: "响应式", link: '/interview/vue/1-reactivity' },
+            { text: "基础", link: '/interview/vue/3-base' },
+            { text: "响应式", link: '/interview/vue/3-reactivity' },
+            { text: "使用", link: '/interview/vue/3-use' },
+            { text: "Setup", link: '/interview/vue/3-setup' },
+            { text: "Typescript", link: '/interview/vue/3-ts' },
+            { text: "Router", link: '/interview/vue/3-router' },
+            { text: "Pinia", link: '/interview/vue/3-pinia' },
+            { text: "QA", link: '/interview/vue/3-qa' },
           ]
         },
         {
@@ -180,11 +187,27 @@ export default defineConfig({
       ],
       '/interview/nuxt/': [
         {
-          text: 'Nuxt3面试题',
+          text: 'Nuxt3 面试题',
           items: [
             { text: "基础", link: '/interview/nuxt/base' },
-            { text: "多语言", link: '/interview/nuxt/i18n' },
+            { text: "渲染模式", link: '/interview/nuxt/rendering' },
+            { text: "数据获取", link: '/interview/nuxt/fetching' },
+            { text: "服务器", link: '/interview/nuxt/server' },
+            { text: "项目模版", link: '/interview/nuxt/starter' },
             { text: "QA1", link: '/interview/nuxt/qa1' },
+          ]
+        },
+      ],
+      '/interview/performance/': [
+        {
+          text: '性能优化',
+          items: [
+            { text: "概览", link: '/interview/performance/guide' },
+            { text: "基础", link: '/interview/performance/base' },
+            { text: "指标", link: '/interview/performance/vitals' },
+            { text: "长任务", link: '/interview/performance/long-task' },
+            { text: "Vue", link: '/interview/performance/vue-nuxt' },
+            { text: "React", link: '/interview/performance/react-nextjs' },
           ]
         },
       ],
