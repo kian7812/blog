@@ -80,7 +80,7 @@ View（DOM） ViewModel（DOM Listeners、Data Bindings）Model（Plain JavaScri
 一般来说，v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。因此，如果需要非常频繁地切换，则使用 v-show 较好；如果在运行时条件很少改变，则使用 v-if 较好。
 
 
-### 为什么 v-for 和 v-if 不建议用在一起
+### 为什么 v-for 和 v-if 不建议用在一起（📢Vue3有变化）
 
 - 当 v-for 和 v-if 处于同一个节点时，`v-for 的优先级比 v-if 更高`，`这意味着 v-if 将分别重复运行于每个 v-for 循环中`。
 
@@ -261,7 +261,6 @@ $root 当前组件树的根 Vue 实例。如果当前实例没有父实例，此
 Vue实现按需加载原理
 Vue实现按需加载，官方推荐使用结合webpack的代码分割功能进行（动态引入）。定义为异步加载的组件，
 在打包的时候，会打包成单独的js文件存储在static/js文件夹里面，
-在调用时使用ajax请求回来插入到html中。
 
 Vue.component(
   'async-webpack-example',
@@ -378,7 +377,7 @@ Vue的子组件引入有两中方式：同步和异步，因此父子组件加�
 - 销毁过程：
 - 父beforeDestroy --> 子beforeDestroy --> 子destroyed --> 父destroyed
 
-异步引入时生命周期顺序：// 注意：父子组件都异步走自己的生命周期，不会互相干扰
+**异步引入时生命周期顺序**：// 注意：父子组件都异步走自己的生命周期，不会互相干扰
 - 父组件的beforeCreate、created、beforeMount、mounted --> 子组件的beforeCreate、created、beforeMount、mounted
 
 同步组件注册是引入的一个对象，
@@ -404,10 +403,11 @@ mounted里或之后可以访问操作dom，可使用$refs属性对Dom进行操�
 
 ### 在使用生命周期时有几点注意事项：
 
-1.第一点就是上文曾提到的created阶段的ajax请求与mounted请求的区别：前者页面视图未出现，如果请求信息过多，页面会长时间处于白屏状态。
-2.除了beforeCreate和created钩子之外，其他钩子均在服务器端渲染期间不被调用（ssr客户端不触发created）。
-3.上文曾提到过，在updated的时候千万不要去修改data里面赋值的数据，否则会导致死循环。
-4.Vue的所有生命周期函数都是自动绑定到this的上下文上。所以，你这里使用箭头函数的话，就会出现this指向的父级作用域，就会报错。原因下面源码部分会讲解。
+1. 第一点就是上文曾提到的created阶段的ajax请求与mounted请求的区别：前者页面视图未出现，如果请求信息过多，页面会长时间处于白屏状态。
+2. 除了beforeCreate和created钩子之外，其他钩子均在服务器端渲染期间不被调用（ssr客户端不触发created）。
+3. 上文曾提到过，在updated的时候千万不要去修改data里面赋值的数据，否则会导致死循环。
+4. Vue的所有生命周期函数都是自动绑定到this的上下文上。所以，你这里使用箭头函数的话，就会出现this指向的父级作用域，就会报错。原因下面源码部分会讲解。
+
 生命周期钩子的 this 上下文指向调用它的 Vue 实例。
 
 ### 组件运行阶段的生命周期函数只有：beforeUpdate和updated。

@@ -1,23 +1,23 @@
 # 编译
 
+## Vue 的模板编译原理✅
+
+vue模板的编译过程分为3个阶段：
+1. 第⼀步：解析
+将模板字符串解析⽣成 AST，⽣成的AST 元素节点总共有 3 种类型，1 为普通元素， 2 为表达式，3为纯⽂本。
+2. 第⼆步：优化语法树
+    - Vue 模板中并不是所有数据都是响应式的，有很多数据是⾸次渲染后就永远不会变化的，那么这部分数据⽣成的 DOM 也不会变化，我们可以在 patch 的过程跳过对他们的⽐对。
+    - 此阶段会深度遍历⽣成的 AST 树，检测它的每⼀颗⼦树是不是静态节点，如果是静态节点则它们⽣成DOM 永远不需要改变，这对运⾏时对模板的更新起到极⼤的优化作⽤。
+3. ⽣成代码
+  - const code = generate(ast, options)
+  - 通过 generate ⽅法，将ast⽣成 render 函数。
+
 ## 如何理解Vue中的模板编译原理？
 
 这个问题的核心是如何将template转换成render函数。
 1. 将template模块转换成ast语法书 - parserHTML
 2. 对静态语法做标记（某些节点不改变）
 3. 重新生成代码 - codeGen,使用with语法包裹字符串
-
-## Vue 的模板编译原理
-
-vue模板的编译过程分为3个阶段：
-1. 第⼀步：解析
-将模板字符串解析⽣成 AST，⽣成的AST 元素节点总共有 3 种类型，1 为普通元素， 2 为表达式，3为纯⽂本。
-2. 第⼆步：优化语法树
-Vue 模板中并不是所有数据都是响应式的，有很多数据是⾸次渲染后就永远不会变化的，那么这部分数据⽣成的 DOM 也不会变化，我们可以在 patch 的过程跳过对他们的⽐对。
-此阶段会深度遍历⽣成的 AST 树，检测它的每⼀颗⼦树是不是静态节点，如果是静态节点则它们⽣成DOM 永远不需要改变，这对运⾏时对模板的更新起到极⼤的优化作⽤。
-3. ⽣成代码
-const code = generate(ast, options)
-通过 generate ⽅法，将ast⽣成 render 函数。
 
 
 ## 编译
@@ -68,35 +68,6 @@ Vue的数据是响应式的，但其实模板中并不是所有的数据都是�
 
 编译的最后一步是将优化后的AST树转换为可执行的代码。
 
-## 编译，编译的是谁？编译成什么？为什么编译？做了几件事情？
-
-编译的是template，
-编译成render函数，用来生成vnode，
-编译过程中可以进行一些优化静态标识等。
-
-vue里通过，字符串模板template -> ast HTML语法树 -> render函数 -> vnode
-
-虚拟dom
-字符串模板template -（compiler编译成）> ast HTML语法树（vue-loader做了前面） -> render函数 -> vnode -> patch 真实dom替换
-runtime render函数 -> vnode -> vnode新patch旧 真实dom替换
-
-为什么使用虚拟dom？
-可以提高操作dom的性能，通过比对虚拟dom，最小概率的操作dom。
-因为所有比对操作都是js完成，最小概率的操作dom，切减少操作dom次数，来提高dom操作方面的性能
-
-虚拟dom是？
-描述真实dom节点的js对象，用来缓存住，最终用来对比并生成真实dom
-
-思考: vue 项目 *模板 转换为 抽象语法树* 需要执行几次???（1次）
-- 一个项目运行的时候 模板是不会变 的, 就表示 AST 是不会变的
-
-patch时
-真实dom 与 虚拟vnode 是一一对应的，虚拟dom树的每个节点，都会对应的真是dom，
-新的vnode与现有进行diff，会更新现有的vnode，同时也会操作真实dom（这块看源码时重点关注下），diff的目的就是以最小的粒度更新真实dom操作。
-
-
-*小右：不要深究diff*
-
 ## Vue complier 实现
 
 模板解析这种事，本质是将数据转化为一段 html ，最开始出现在后端，经过各种处理吐给前端。
@@ -107,7 +78,9 @@ patch时
 
 ## Vue.js的template编译
 简而言之，就是先转化成AST树，再得到的render函数返回VNode（Vue的虚拟DOM节点），详细步骤如下：
+
 首先，通过compile编译器把template编译成AST语法树（abstract syntax tree 即 源代码的抽象语法结构的树状表现形式），compile是createCompiler的返回值，createCompiler是用以创建编译器的。另外compile还负责合并option。
+
 然后，AST会经过generate（将AST语法树转化成render funtion字符串的过程）得到render函数，render的返回值是VNode，VNode是Vue的虚拟DOM节点，里面有（标签名、子节点、文本等等）
 
 ## 
@@ -125,14 +98,12 @@ patch时
 vue文件的一个加载器，跟template/js/style转换成js模块。
 
 
-
-
 ## Vue 模板编译原理
 Vue 的编译过程就是将 template 转化为 render 函数的过程 分为以下三步
 
-第一步是将 模板字符串 转换成 element ASTs（解析器）
-第二步是对 AST 进行静态节点标记，主要用来做虚拟DOM的渲染优化（优化器）
-第三步是 使用 element ASTs 生成 render 函数代码字符串（代码生成器）
+1. 第一步是将 模板字符串 转换成 element ASTs（解析器）
+2. 第二步是对 AST 进行静态节点标记，主要用来做虚拟DOM的渲染优化（优化器）
+3. 第三步是 使用 element ASTs 生成 render 函数代码字符串（代码生成器）
 
 ```js
 export function compileToFunctions(template) {
@@ -158,5 +129,37 @@ export function compileToFunctions(template) {
 
 ```
 
+## 编译，编译的是谁？编译成什么？为什么编译？做了几件事情？
+
+- 编译的是template，
+- 编译成render函数，用来生成vnode，
+- 编译过程中可以进行一些优化静态标识等。
+
+vue里通过，字符串模板template -> ast HTML语法树 -> render函数 -> vnode
+
+虚拟dom
+
+字符串模板template -（compiler编译成）> ast HTML语法树（vue-loader做了前面） -> render函数 -> vnode -> patch 真实dom替换
+runtime render函数 -> vnode -> vnode新patch旧 真实dom替换
+
+为什么使用虚拟dom？
+
+可以提高操作dom的性能，通过比对虚拟dom，最小概率的操作dom。
+因为所有比对操作都是js完成，最小概率的操作dom，切减少操作dom次数，来提高dom操作方面的性能
+
+虚拟dom是？
+
+描述真实dom节点的js对象，用来缓存住，最终用来对比并生成真实dom
+
+思考: vue 项目 *模板 转换为 抽象语法树* 需要执行几次???（1次）
+- 一个项目运行的时候 模板是不会变 的, 就表示 AST 是不会变的
+
+patch时
+
+真实dom 与 虚拟vnode 是一一对应的，虚拟dom树的每个节点，都会对应的真是dom，
+新的vnode与现有进行diff，会更新现有的vnode，同时也会操作真实dom（这块看源码时重点关注下），diff的目的就是以最小的粒度更新真实dom操作。
+
+
+*小右：不要深究diff*
 
 

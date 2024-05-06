@@ -1,6 +1,18 @@
+# nextTick(2/3)
 
+*Vue3其实也差不多这个思路*。
 
-# 
+tick代表一个任务，task，从浏览器角度performance里就能理解，下个任务包含：都是callbacks，又包括watcher执行：组件re-render、计算属性、用户watcher计算等（看👇🏻派发更新）
+
+## * 派发更新（👍🏻）
+  1. **Dep.notify()**
+  2. **watcher.update()**
+  3. **queenWatcher()**
+  4. **nextTick**（这之后的在同一个tick里执行即nextTick方法里）
+  5. **flushScheduleQueue**
+  6. **watcher.run()**
+  7. **updateComponent()**
+
 
 ## 为什么Vue采用异步渲染？
 我们先来想一个问题：如果Vue不采用异步更新，那么每次数据更新时是不是都会对当前组件进行重写渲染呢？
@@ -36,20 +48,89 @@ Vue 在更新 DOM 时是异步执行的。只要侦听到数据变化，Vue 将�
 ## Vue 的 nextTick 主要是用来：批量派发异步任务的，
 异步任务包括：批量渲染任务（flushSchedulerQueue）；和用户Vue.nextTick()
 
-## * set: 派发更新
-  * Dep.notify()
-  * watcher.update()
-  * queenWatcher()
-  * nextTick
-  * flushScheduleQueue
-  * watcher.run()
-  * updateComponent()
+
 
 
 ## Vue.nextTick = nextTick
 nextTick 和 异步渲染的nextTick 是同一个
 
 import {nextTick} from '../util/index'
+
+##  nextTick
+
+nextTick 中的回调是在下次 DOM 更新循环结束之后执行的延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。主要思路就是采用微任务优先的方式调用异步方法去执行 nextTick 包装的方法
+
+```js
+
+let callbacks = [];
+let pending = false;
+function flushCallbacks() {
+  pending = false; //把标志还原为false
+  // 依次执行回调
+  for (let i = 0; i < callbacks.length; i++) {
+    callbacks[i]();
+  }
+}
+let timerFunc; //定义异步方法  采用优雅降级
+if (typeof Promise !== "undefined") {
+  // 如果支持promise
+  const p = Promise.resolve();
+  timerFunc = () => {
+    p.then(flushCallbacks);
+  };
+} else if (typeof MutationObserver !== "undefined") {
+  // MutationObserver 主要是监听dom变化 也是一个异步方法
+  let counter = 1;
+  const observer = new MutationObserver(flushCallbacks);
+  const textNode = document.createTextNode(String(counter));
+  observer.observe(textNode, {
+    characterData: true,
+  });
+  timerFunc = () => {
+    counter = (counter + 1) % 2;
+    textNode.data = String(counter);
+  };
+} else if (typeof setImmediate !== "undefined") {
+  // 如果前面都不支持 判断setImmediate
+  timerFunc = () => {
+    setImmediate(flushCallbacks);
+  };
+} else {
+  // 最后降级采用setTimeout
+  timerFunc = () => {
+    setTimeout(flushCallbacks, 0);
+  };
+}
+
+export function nextTick(cb) {
+  // 除了渲染watcher  还有用户自己手动调用的nextTick 一起被收集到数组
+  callbacks.push(cb);
+  if (!pending) {
+    // 如果多次调用nextTick  只会执行一次异步 等异步队列清空之后再把标志变为false
+    pending = true;
+    timerFunc();
+  }
+}
+
+```
+
+## nextTick是做什么⽤的，其原理是什么?（👍🏻）
+
+能回答清楚这道问题的前提，是清楚 EventLoop 过程。
+
+作用* 在下次 DOM 更新循环结束后执⾏延迟回调，在修改数据之后⽴即使⽤ nextTick 来获取更新后的DOM。
+
+原理* nextTick 对于 micro task 的实现，会先检测是否⽀持 Promise ，不⽀持的话，直接指向 macrotask，⽽ macro task 的实现，优先检测是否⽀持 setImmediate （⾼版本IE和Etage⽀持），不⽀持的再去检测是否⽀持 MessageChannel，如果仍不⽀持，最终降级为 setTimeout 0；
+* 默认的情况，会先以 micro task ⽅式执⾏，因为 micro task 可以在⼀次 tick 中全部执⾏完毕，在⼀些有重绘和动画的场景有更好的性能。
+* 但是由于 micro task 优先级较⾼，在某些情况下，可能会在事件冒泡过程中触发，导致⼀些问题，所以有些地⽅会强制使⽤ macro task （如 v-on ）。
+
+注意：之所以将 nextTick 的回调函数放⼊到数组中⼀次性执⾏，⽽不是直接在 nextTick 中执⾏回调函数，是为了保证在同⼀个tick内多次执⾏了 nextTcik ，不会开启多个异步任务，⽽是把这些异步任务都压成⼀个同步任务，在下⼀个tick内执⾏完毕。
+
+注意：
+- dom更新和nextTick执行(如果是micro-task实现)，是在同一个tick中进行的。
+- 下一次的意思，数据变化后，re-render是异步的，re-render是下一次任务重进行的。
+- DOM 渲染既然在微任务之后，为什么在微任务中，可以拿到渲染后的 DOM 呢，
+  - **微任务中获得的dom对象已经是更新过后的，只是还没渲染**。
 
 ## 参考
 

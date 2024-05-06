@@ -115,11 +115,10 @@ export default defineConfig({
           items: [
             { text: "基础", link: '/interview/vue/2-base' },
             { text: "响应式", link: '/interview/vue/2-reactivity' },
-            { text: "nextTick", link: '/interview/vue/2-nexttick' },
-            { text: "渲染更新", link: '/interview/vue/2-renderpatch' },
+            { text: "nextTick(2/3)", link: '/interview/vue/2-nexttick' },
+            { text: "渲染PatchDiff", link: '/interview/vue/2-render-patch-diff' },
             { text: "编译", link: '/interview/vue/2-compile' },
-            { text: "ZZZ", link: '/interview/vue/2-zzz' },
-            { text: "Vue优化", link: '/interview/vue/optimize' },
+            { text: "QA", link: '/interview/vue/2-qa' },
           ]
         }
       ],

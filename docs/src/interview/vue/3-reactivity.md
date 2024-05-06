@@ -115,7 +115,7 @@ https://juejin.cn/post/7137149613223444488（清风）
 
 简单来说，所谓 computed 的核心实现思路就是如此。
 
-6. 理解补充：当依赖的属性发生变化后，不是立刻get重新计算，而是：
+6. *理解补充：当依赖的属性发生变化后，不是立刻get重新计算，而是：
   - scheduler中dirty为true
   - scheduler中通知依赖该计算属性的Effects重新run，
   - 这些Effects重新run时，此时会触发计算属性的get，同时发现脏了，才会重新允许该计算属性。同时dirty置为false。

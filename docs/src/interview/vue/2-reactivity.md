@@ -14,11 +14,6 @@ computed和watch都基于watcher来实现的。
 computed的属性是具备缓存的，依赖的值不发生变化，对其取值时计算属性方法不会重复执行
 watch是监控值的变化，当值发生改变的时候，会调用回调函数
 
-## Vue.set方法是如何实现的？
-vue给对象和数组本身都增加了dep属性
-当给对象新增不存在的属性的时候，就会触发对象依赖的watcher去更新
-当修改数组索引的时候，就调用数组本身的splice方法去更新数组
-
 ## computed和watch的区别是什么？
 * computed和watch都基于watcher来实现的。
 * computed的属性是具备缓存的，依赖的值不发生变化，对其取值时计算属性方法不会重复执行
@@ -142,7 +137,8 @@ methodsToPatch.forEach((method) => {
     //   这里保留原型方法的执行结果
     const result = arrayProto[method].apply(this, args);
     // 这句话是关键
-    // this代表的就是数据本身 比如数据是{a:[1,2,3]} 那么我们使用a.push(4)  this就是a  ob就是a.__ob__ 这个属性就是上段代码增加的 代表的是该数据已经被响应式观察过了指向Observer实例
+    // this代表的就是数据本身 比如数据是{a:[1,2,3]} 那么我们使用a.push(4)  
+    // this就是a  ob就是a.__ob__ 这个属性就是上段代码增加的 代表的是该数据已经被响应式观察过了指向Observer实例
     const ob = this.__ob__;
 
     // 这里的标志就是代表数组有新增操作
@@ -164,6 +160,73 @@ methodsToPatch.forEach((method) => {
   };
 });
 ```
+
+~ vue2.x中如何监测数组变化？（好描述）
+* 使用了函数劫持的方式，重写了数组的方法，Vue将data中的数组进行了原型链重写，指向了自己定义的数组原型方法，当调用数组api时，可以通知依赖更新。
+* 如果数组中包含着引用类型，会对数组中的引用类型再次递归遍历进行监控。这样就实现了监测数组变化。
+
+$ 数组方法如何触发响应式更新？
+数组自身变更：push() pop() shift() unshift() splice() sort() reverse()
+数组重新赋值：filter() concat() slice()
+
+$ 数组自身变更的方法触发响应式更新的底层原理是什么？
+Vue内部使用函数劫持方式，对数组方法进行了拦截，重写了数组方法（push、pop、shift、unshift、splice、sort、reverse）
+当 Vue 对 data 选项数据进行数据观测时，会对数组数据进行原型链重写 value.__proto__ = arrayMethods，指向重写的数组方法对象上
+当 data 数组调用数组方法时，可以通知依赖更新，如有新增数组元素的也会进行递归数据观测。
+这样就实现了监测数组变化并进行响应式更新。
+具体数组方法重写作了：
+1 执行原始数组方法
+2 对新增（push、unshift、splice）数组元素，进行观测
+3 dep 依赖触发 notify 通知，进行响应式更新
+4 返回原始执行结果
+
+Vue内部使用函数劫持方式，对数组方法进行了拦截，重写了数组方法（push、pop、shift、unshift、splice、sort、reverse）
+```js
+const arrayProto = Array.prototype
+export const arrayMethods = Object.create(arrayProto)
+['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse'].forEach(function (method) {
+  // cache original method
+  const original = arrayProto[method]
+  def(arrayMethods, method, function mutator (...args) {
+    const result = original.apply(this, args)
+    const ob = this.__ob__
+    let inserted
+    switch (method) {
+      case 'push':
+      case 'unshift':
+        inserted = args
+        break
+      case 'splice':
+        inserted = args.slice(2)
+        break
+    }
+    if (inserted) ob.observeArray(inserted)
+    // notify change
+    ob.dep.notify()
+    return result
+  })
+})
+```
+0 在 arrayMethods 添加重写数组方法，重写进行了下面3步：
+1 执行原始数组方法
+2 对新增（push、unshift、splice）数组元素，进行观测
+3 dep 依赖触发 notify 通知，进行响应式更新
+4 返回原始执行结果
+
+当 Vue 对 data 选项数据进行数据观测时，会对数组数据进行原型链重写 `value.__proto__` = arrayMethods，指向重写的数组方法对象上
+继承关系: arr -> arrayMethods -> Array.prototype -> Object.prototype -> …
+
+### Vue中如何检测数组的变化？
+ue中对数组没有进行defineProperty，而是重写了数组的7个方法。 分别是：
+* push
+* shift
+* pop
+* splice
+* unshift
+* sort
+* reverse
+因为这些方法都会改变数组本身。
+数组里的索引和长度是无法被监控的。
 
 ## Vue3.0 和 2.0 的响应式原理区别
 Vue3.x 改用 Proxy 替代 Object.defineProperty。因为 Proxy 可以直接监听对象和数组的变化，并且有多达 13 种拦截方法。
@@ -221,74 +284,34 @@ export const mutableHandlers = {
 
 ```
 
-##  nextTick
+## Vue.set方法是如何实现的？
+1. vue给对象和数组本身都增加了dep属性
+3. 当给对象新增不存在的属性的时候，就会触发对象依赖的watcher去更新
+3. 当修改数组索引的时候，就调用数组本身的splice方法去更新数组
 
-nextTick 中的回调是在下次 DOM 更新循环结束之后执行的延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。主要思路就是采用微任务优先的方式调用异步方法去执行 nextTick 包装的方法
-
-```js
-
-let callbacks = [];
-let pending = false;
-function flushCallbacks() {
-  pending = false; //把标志还原为false
-  // 依次执行回调
-  for (let i = 0; i < callbacks.length; i++) {
-    callbacks[i]();
-  }
-}
-let timerFunc; //定义异步方法  采用优雅降级
-if (typeof Promise !== "undefined") {
-  // 如果支持promise
-  const p = Promise.resolve();
-  timerFunc = () => {
-    p.then(flushCallbacks);
-  };
-} else if (typeof MutationObserver !== "undefined") {
-  // MutationObserver 主要是监听dom变化 也是一个异步方法
-  let counter = 1;
-  const observer = new MutationObserver(flushCallbacks);
-  const textNode = document.createTextNode(String(counter));
-  observer.observe(textNode, {
-    characterData: true,
-  });
-  timerFunc = () => {
-    counter = (counter + 1) % 2;
-    textNode.data = String(counter);
-  };
-} else if (typeof setImmediate !== "undefined") {
-  // 如果前面都不支持 判断setImmediate
-  timerFunc = () => {
-    setImmediate(flushCallbacks);
-  };
-} else {
-  // 最后降级采用setTimeout
-  timerFunc = () => {
-    setTimeout(flushCallbacks, 0);
-  };
-}
-
-export function nextTick(cb) {
-  // 除了渲染watcher  还有用户自己手动调用的nextTick 一起被收集到数组
-  callbacks.push(cb);
-  if (!pending) {
-    // 如果多次调用nextTick  只会执行一次异步 等异步队列清空之后再把标志变为false
-    pending = true;
-    timerFunc();
-  }
-}
+## vm.$set 的实现原理
 
 ```
+// 棒
+function set(target, key, val) {
+    const ob = target.__ob__
+    defineReactive(ob.value, key, val)
+    ob.dep.notify()
+    return val
+}
+```
 
-
-
+1. 当向一个响应式对象新增属性的时候，需要对这个属性重新进行响应式的设置，即使用 defineReactive 将新增的属性转换成 getter/setter。
+2. 我们在前面讲过每一个对象是会通过 Observer 类型进行包装的，并在 Observer 类里面创建一个属于这个对象的依赖收集存储对象 dep， 
+3. 最后在新增属性的时候就通过这个依赖对象进行通知相关 Watcher 进行变化更新。
 
 ## Vue.set 方法原理
 
-了解 Vue 响应式原理的同学都知道在两种情况下修改数据 Vue 是不会触发视图更新的
-1.在实例创建之后添加新的属性到实例上（给响应式对象新增属性）
-2.直接更改数组下标来修改数组的值
-Vue.set 或者说是$set 原理如下
-因为响应式数据 我们给对象和数组本身都增加了__ob__属性，代表的是 Observer 实例。当给对象新增不存在的属性 首先会把新的属性进行响应式跟踪 然后会触发对象__ob__的 dep 收集到的 watcher 去更新，当修改数组索引时我们调用数组本身的 splice 方法去更新数组
+了解 Vue 响应式原理的同学都知道在两种情况下修改数据 Vue 是**不会**触发视图更新的
+1. 在实例创建之后添加新的属性到实例上（给响应式对象新增属性）
+2. 直接更改数组下标来修改数组的值
+
+Vue.set 或者说是$set 原理如下: 因为响应式数据 我们给对象和数组本身都增加了__ob__属性，代表的是 Observer 实例。当给对象新增不存在的属性 首先会把新的属性进行响应式跟踪 然后会触发对象__ob__的 dep 收集到的 watcher 去更新，当修改数组索引时我们调用数组本身的 splice 方法去更新数组
 
 ```js
 export function set(target: Array | Object, key: any, val: any): any {
@@ -320,51 +343,40 @@ export function set(target: Array | Object, key: any, val: any): any {
 ```
 
 
-## vm.$set 的实现原理
-
-```
-function set(target, key, val) {
-    const ob = target.__ob__
-    defineReactive(ob.value, key, val)
-    ob.dep.notify()
-    return val
-}
-```
-
-当向一个响应式对象新增属性的时候，需要对这个属性重新进行响应式的设置，即使用 defineReactive 将新增的属性转换成 getter/setter。
-我们在前面讲过每一个对象是会通过 Observer 类型进行包装的，并在 Observer 类里面创建一个属于这个对象的依赖收集存储对象 dep， 最后在新增属性的时候就通过这个依赖对象进行通知相关 Watcher 进行变化更新。
-
-
-
-
-
-
-
-
 ## 参考
-
 
 - https://juejin.cn/post/6961222829979697165
 - https://juejin.cn/post/7043074656047202334
 
+##
 
+下面是笔记里的
 
 ## Vue2 响应式/双向绑原理
+
 Vue 数据双向绑定是指：数据变化更新视图，视图变化更新数据。
+
 Vue 响应式原理是采用数据劫持结合发布者-订阅者模式的方式，通过Object.defineProperty()来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发更新。
+
 ~ Vue响应式原理？Vue双向绑定的原理？
+
 原理1：
+
 vue.js 是采用数据劫持结合发布者-订阅者模式的方式，通过Object.defineProperty()来劫持（组件data选项的）各个属性的setter、getter，在数据变动时发布消息给订阅者，触发相应的监听回调。
 
 原理2：
+
 1、Vue 将遍历此data对象所有的 property，并使用 Object.defineProperty 把这些 property 全部转为 getter/setter。
+
 2、每个组件实例都对应一个 watcher 实例，它会在组件渲染的过程中把“接触”过的数据 property 记录为依赖。之后当依赖项的 setter 触发时，会通知 watcher，从而使它关联的组件重新渲染。
 
 ## 简述，如何追踪变化
+
 * Vue 将遍历数据对象所有的 property，并使用 Object.defineProperty 把这些 property 全部转为 getter/setter，同时进行依赖收集。
 * 每个组件实例都对应一个 watcher 实例，它会在组件渲染的过程中把“接触”过的数据 property 记录为依赖。当依赖项的 setter 触发时，会通知 watcher，从而使它关联的组件重新渲染。
 
 ## 谈谈你对Vue中响应式数据的理解？
+
 数组和对象类型的值变化的时候，通过defineReactive方法，借助了defineProperty，将所有的属性添加了getter和setter。用户在取值和设置的时候，可以进行一些操作。
 缺陷：只能监控最外层的属性，如果是多层的，就要进行全量递归。
 get里面会做依赖搜集（dep[watcher, watcher]） set里面会做数据更新（notify，通知watcher更新）
@@ -387,7 +399,7 @@ Vue初始化的时候，挂载之后会进行编译。生成renderFunction。
 每当触发渲染时，都会执行组件模板里所有的方法和表达式，
 而计算属性依赖的属性没改变，会直接返回缓存值（computed-watcher的value），这将很大概率提高计算速度。
 应用场景：适用于重新计算比较费时不用重复数据计算的环境。
-补充：计算属性是个宝，相比于方法、{{ 表达式计算 }}，由此引出组件拆分粒度要合适的小就可以更小粒度的触发渲染
+补充：计算属性是个宝，相比于方法、表达式计算，由此引出组件拆分粒度要合适的小就可以更小粒度的触发渲染
 ```
 
 ## computed 和 watch 的区别和运用的场景？
@@ -436,21 +448,9 @@ watch: {
 
 如果没有写到组件中，不要忘记使用unWatch手动注销哦。
 
-## nextTick是做什么⽤的，其原理是什么?（👍🏻）
-能回答清楚这道问题的前提，是清楚 EventLoop 过程。
-作用* 在下次 DOM 更新循环结束后执⾏延迟回调，在修改数据之后⽴即使⽤ nextTick 来获取更新后的DOM。
-原理* nextTick 对于 micro task 的实现，会先检测是否⽀持 Promise ，不⽀持的话，直接指向 macrotask，⽽ macro task 的实现，优先检测是否⽀持 setImmediate （⾼版本IE和Etage⽀持），不⽀持的再去检测是否⽀持 MessageChannel，如果仍不⽀持，最终降级为 setTimeout 0；
-* 默认的情况，会先以 micro task ⽅式执⾏，因为 micro task 可以在⼀次 tick 中全部执⾏完毕，在⼀些有重绘和动画的场景有更好的性能。
-* 但是由于 micro task 优先级较⾼，在某些情况下，可能会在事件冒泡过程中触发，导致⼀些问题，所以有些地⽅会强制使⽤ macro task （如 v-on ）。
-注意：之所以将 nextTick 的回调函数放⼊到数组中⼀次性执⾏，⽽不是直接在 nextTick 中执⾏回调函数，是为了保证在同⼀个tick内多次执⾏了 nextTcik ，不会开启多个异步任务，⽽是把这些异步任务都压成⼀个同步任务，在下⼀个tick内执⾏完毕。（意思是有可能nextTick里也会修改响应式数据）
 
-注意：
-- dom更新和nextTick执行(如果是micro-task实现)，是在同一个tick中进行的。
-- 下一次的意思，数据变化后，re-render是异步的，re-render是下一次任务重进行的。
-- DOM 渲染既然在微任务之后，为什么在微任务中，可以拿到渲染后的 DOM 呢，
-  - 微任务中获得的dom对象已经是更新过后的，只是还没渲染。
 ```
-#四 检测变化的注意事项
+## 四 检测变化的注意事项
 
 ~ 为什么 `vm.a` 是响应的， `vm.b` 是非响应的？
 @对于对象：
@@ -460,6 +460,7 @@ watch: {
 
 ~ 直接给一个数组项通过索引赋值，Vue 能检测到变化吗？
 ~ Vue不能检测数组的哪些变动？
+
 @对于数组：
 * Vue 不能检测以下数组的变动：
 1. 当你利用索引直接设置一个数组项时，例如：vm.items[indexOfItem] = newValue
@@ -480,72 +481,6 @@ vm.items.splice(indexOfItem, 1, newValue) // Array.prototype.splice
 
 ```
 
-```
-~ vue2.x中如何监测数组变化？（好描述）
-* 使用了函数劫持的方式，重写了数组的方法，Vue将data中的数组进行了原型链重写，指向了自己定义的数组原型方法，当调用数组api时，可以通知依赖更新。
-* 如果数组中包含着引用类型，会对数组中的引用类型再次递归遍历进行监控。这样就实现了监测数组变化。
-
-$ 数组方法如何触发响应式更新？
-数组自身变更：push() pop() shift() unshift() splice() sort() reverse()
-数组重新赋值：filter() concat() slice()
-
-$ 数组自身变更的方法触发响应式更新的底层原理是什么？
-Vue内部使用函数劫持方式，对数组方法进行了拦截，重写了数组方法（push、pop、shift、unshift、splice、sort、reverse）
-当 Vue 对 data 选项数据进行数据观测时，会对数组数据进行原型链重写 value.__proto__ = arrayMethods，指向重写的数组方法对象上
-当 data 数组调用数组方法时，可以通知依赖更新，如有新增数组元素的也会进行递归数据观测。
-这样就实现了监测数组变化并进行响应式更新。
-具体数组方法重写作了：
-1 执行原始数组方法
-2 对新增（push、unshift、splice）数组元素，进行观测
-3 dep 依赖触发 notify 通知，进行响应式更新
-4 返回原始执行结果
-
-Vue内部使用函数劫持方式，对数组方法进行了拦截，重写了数组方法（push、pop、shift、unshift、splice、sort、reverse）
-const arrayProto = Array.prototype
-export const arrayMethods = Object.create(arrayProto)
-['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse'].forEach(function (method) {
-  // cache original method
-  const original = arrayProto[method]
-  def(arrayMethods, method, function mutator (...args) {
-    const result = original.apply(this, args)
-    const ob = this.__ob__
-    let inserted
-    switch (method) {
-      case 'push':
-      case 'unshift':
-        inserted = args
-        break
-      case 'splice':
-        inserted = args.slice(2)
-        break
-    }
-    if (inserted) ob.observeArray(inserted)
-    // notify change
-    ob.dep.notify()
-    return result
-  })
-})
-0 在 arrayMethods 添加重写数组方法，重写进行了下面3步：
-1 执行原始数组方法
-2 对新增（push、unshift、splice）数组元素，进行观测
-3 dep 依赖触发 notify 通知，进行响应式更新
-4 返回原始执行结果
-
-当 Vue 对 data 选项数据进行数据观测时，会对数组数据进行原型链重写 value.__proto__ = arrayMethods，指向重写的数组方法对象上
-继承关系: arr -> arrayMethods -> Array.prototype -> Object.prototype -> …
-
-# Vue中如何检测数组的变化？
-ue中对数组没有进行defineProperty，而是重写了数组的7个方法。 分别是：
-* push
-* shift
-* pop
-* splice
-* unshift
-* sort
-* reverse
-因为这些方法都会改变数组本身。
-数组里的索引和长度是无法被监控的。
-```
 
 ```
 ~ vm.$set 的实现原理是：
