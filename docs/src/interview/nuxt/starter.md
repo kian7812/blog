@@ -18,6 +18,8 @@ tailwindcss
 element-plus
 
 
+cookie 共享不同站的登录信息
+
 ## 类型
 
 enums/目录

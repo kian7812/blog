@@ -14,7 +14,7 @@ https://cn.vuejs.org/guide/best-practices/performance.html#profiling-options
 - *app.config.performance 将会开启 Vue 特有的性能标记，标记在 Chrome 开发者工具的性能时间线上*。
 - *Vue 开发者扩展也提供了性能分析的功能*。
 
-## 性能优化（官方文档）
+## 性能优化（官方文档*）
 
 https://cn.vuejs.org/guide/best-practices/performance.html
 
@@ -47,7 +47,7 @@ https://cn.vuejs.org/guide/best-practices/performance.html
     - 有些时候我们会去创建无渲染组件或高阶组件 (用来渲染具有额外 props 的其他组件) 来实现更好的抽象或代码组织。虽然这并没有什么问题，但请记住，组件实例比普通 DOM 节点要昂贵得多，而且为了逻辑抽象创建太多组件实例将会导致性能损失。（这句话意思：可以在于组件会进行响应式依赖吧）
     - 需要提醒的是，考虑这种优化的最佳场景还是在大型列表中。想象一下一个有 100 项的列表，每项的组件都包含许多子组件。在这里去掉一个不必要的组件抽象，可能会减少数百个组件实例的无谓性能消耗。
 
-## Vue3 编译阶段优化
+## Vue3 编译阶段优化（官方文档*）
 
 https://cn.vuejs.org/guide/extras/rendering-mechanism.html#compiler-informed-virtual-dom
 

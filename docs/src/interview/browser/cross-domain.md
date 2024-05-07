@@ -27,10 +27,13 @@
 
 ### JS跨域请求的方式？
 1、通过修改document.domain来跨子域
+
 2、使用window.name来进行跨域
+
 3、使用HTML5中新引进的window.postMessage方法来跨域传送数据（ie 67 不支持）
 
 4、通过jsonp跨域  // 这是AJAX请求的跨域
+
 5、CORS跨域，需要服务器设置header ：Access-Control-Allow-Origin。 // 这是AJAX请求的跨域
 
 6、nginx反向代理 这个方法一般很少有人提及，但是他可以不用目标服务器配合，不过需要你搭建一个中转nginx服务器，用于转发请求 // 关键是服务端请求没有跨域限制所以可以实现代理
