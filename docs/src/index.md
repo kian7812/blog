@@ -12,7 +12,7 @@ hero:
       link: /interview/javascript/base/1
     - theme: alt
       text: Blog
-      link: /blog/browser/processes-and-threads
+      link: /blog/guide
 
 features:
   # - title: Feature A

@@ -32,7 +32,7 @@ export default defineConfig({
           { text: '6 Web3', link: '/interview/web3/base', activeMatch: '/web3/' },
         ]
       },
-      { text: 'Blog', link: '/blog/browser/processes-and-threads', activeMatch: '/blog/' }
+      { text: 'Blog', link: '/blog/guide', activeMatch: '/blog/' }
     ],
 
     sidebar: {
@@ -258,6 +258,12 @@ export default defineConfig({
       ],
       '/blog/': [
         {
+          text: 'Blog',
+          items: [
+            { text: "Guide", link: '/blog/guide' },
+          ]
+        },
+        {
           text: '浏览器',
           items: [
             { text: '浏览器多进程多线程和JS单线程*', link: '/blog/browser/processes-and-threads' },
@@ -284,6 +290,14 @@ export default defineConfig({
             { text: 'Vue2响应式原理概述*', link: '/blog/vue/2/reactivity' },
             { text: 'Vue2批量异步更新与nextTick原理', link: '/blog/vue/2/nexttick' },
             { text: 'Vue2组件渲染流程', link: '/blog/vue/2/renderpatch' },
+          ]
+        },
+        {
+          text: 'JD',
+          items: [
+            { text: 'Vue', link: '/blog/jd/vue' },
+            { text: 'React', link: '/blog/jd/react' },
+            { text: 'Web3', link: '/blog/jd/web3' },
           ]
         }
       ]

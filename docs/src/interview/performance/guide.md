@@ -58,6 +58,11 @@ https://www.bilibili.com/video/BV1tR4y1872M/
 
 ### 那个分享弹窗应该也是longtask
 
+## 鹏周老师也很好
+前端性能优化概览
+还是看鹏周老师 https://www.bilibili.com/video/BV1KR4y1L7TK
+小满的http1-http2 &浏览器缓存（通俗易懂）https://xiaoman.blog.csdn.net/article/details/125568128
+
 
 ## 导航2
 https://juejin.cn/post/7197025946918502456
@@ -73,4 +78,5 @@ https://www.bilibili.com/video/BV1bm4y1S7MX（一般只是介绍了概念，没�
 
 李鹏周 13.使用浏览器DevTools分析性能-Performance面板 https://www.bilibili.com/video/BV1C8411V7y2
 
-
+pagespeed 教程
+https://www.youtube.com/watch?v=PU10N-uTFmg
