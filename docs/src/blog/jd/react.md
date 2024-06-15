@@ -22,7 +22,7 @@ https://eleduck.com/posts/x0fWg0
 ```
 
 ```
-https://www.v2ex.com/t/1033926 
+https://www.v2ex.com/t/1033926
 [全职远程][20k-28k] Nextjs React 前端开发工程师
 职位描述 / 工作职责
 
@@ -96,7 +96,7 @@ https://eleduck.com/posts/N0fAQD
 3、具有设计适应所有平台（包括台式机、手机和平板电脑）的反应式组件和内容的经验
   //了解如何将应用程序转化为 PWA 更佳
 4、 具有后端设计经验，包括 REST 标准和建立健全的数据库模式 // 具有 ORM 经验。
-5、具有使用人工智能（如提示、流式处理和评估）进行构建的经验 
+5、具有使用人工智能（如提示、流式处理和评估）进行构建的经验
   // 具备检索增强型生成的知识和经验者优先。
 6、应了解最新的人工智能新闻，知道有哪些模型。
 7、具备数据科学知识（如使用 python 的 pandas 库）者优先。
@@ -111,4 +111,24 @@ https://eleduck.com/posts/N0fAQD
 
 福利：如果合同工作过程中做得好，未来有机会获得全职雇佣机会。
 投递格式：PDF（香港远程_full stack兼职_name_入职时间），并附带一段符合JD的自我介绍信息。
+```
+
+```
+[帮朋友招一位 ai全栈(偏前端)工程师 toc 18-30k 全职]
+https://www.v2ex.com/t/1047653
+国外华人顶级大佬的 Startup
+不卡年龄 不卡学历 不卡大厂工作经验
+薪资open 有能力者可谈
+作为团队第一位工程师 有独挡一面的能力即可
+
+必备技能：
+react nextjs14 rsc+tailwind 最佳
+nodejs restful api 框架均可
+
+加分项：
+开源经验 可附上 Github 最佳
+LLM 相关 toc 业务经验、RAG 经验
+GCP、AWS、K8s 等使用经验
+
+推荐人：https://github.com/boyyangzai
 ```

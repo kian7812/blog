@@ -17,7 +17,7 @@ export default defineConfig({
         text: 'Interview',
         items: [
           { text: '1 Vue', link: '/interview/vue/guide', activeMatch: '/vue/' },
-          { text: '1 React', link: '/interview/react/base', activeMatch: '/react/' },
+          { text: '1 React', link: '/interview/react/guide', activeMatch: '/react/' },
           { text: '2 JavaScript', link: '/interview/javascript/base/1', activeMatch: '/javascript/' },
           { text: '2 HTMLCSS', link: '/interview/htmlcss/css-1', activeMatch: '/htmlcss/' },
           { text: '2 Browser', link: '/interview/browser/network', activeMatch: '/browser/' },
@@ -127,9 +127,32 @@ export default defineConfig({
       ],
       '/interview/react/': [
         {
+          text: '导读',
+          items: [
+            { text: "Guide", link: '/interview/react/guide' },
+          ]
+        },
+        {
+          text: 'React文档',
+          items: [
+            { text: "Hooks", link: '/interview/react/doc-react-hooks' },
+            { text: "Hooks1", link: '/interview/react/doc-react-hooks1' },
+            { text: "Hooks2", link: '/interview/react/doc-react-hooks2' },
+            { text: "React Components", link: '/interview/react/doc-react-components' },
+            { text: "React API", link: '/interview/react/doc-react-apis' },
+            { text: "React DOM Hooks 组件 API", link: '/interview/react/doc-react-dom-hooks-components-apis' },
+            { text: "React 规则", link: '/interview/react/doc-rules' },
+            { text: "描述 UI", link: '/interview/react/doc-describing-the-ui' },
+            { text: "添加交互", link: '/interview/react/doc-adding-interactivity' },
+            { text: "状态管理", link: '/interview/react/doc-managing-state' },
+            { text: "脱围机制 ref", link: '/interview/react/doc-escape-hatches-ref' },
+            { text: "脱围机制 effect", link: '/interview/react/doc-escape-hatches-effect' },
+            { text: "脱围机制 hook", link: '/interview/react/doc-escape-hatches-hook' },
+          ]
+        },
+        {
           text: 'React题',
           items: [
-            { text: "导读", link: '/interview/react/guide' },
             { text: "基础", link: '/interview/react/base' },
             { text: "React18", link: '/interview/react/18' },
             { text: "事件", link: '/interview/react/event' },

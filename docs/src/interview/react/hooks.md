@@ -1,5 +1,6 @@
 # Hooks
 
+不全：加上18新增的
 
 ## Hooks介绍✅
 
@@ -240,12 +241,22 @@ useDebugValue：用于在开发者工具中显示自定义的钩子相关标签�
 
 定义：我们可以把 useRef 看作是在函数组件之外创建的一个容器空间。在这个容器上，我们可以通过唯一的 current 属设置一个值，从而在函数组件的多次渲染之间共享这个值。
 
+- 创建一个 ref 引用，包含一个 ref.current 属性。
+- 
+
 - *useRef 返回的 ref 对象在组件的生命周期内保持不变
 - 使用 useRef 保存的数据一般是和 UI 的渲染无关的，当 ref 的值发生变化时，是不会触发组件的重新渲染的，这也是 useRef 区别于 useState 的地方。
 - 除了存储跨渲染的数据之外，useRef 还有一个重要的功能，就是保存某个 DOM 节点的引用。
 
 - ref.current 发生变化并不会造成 re-render，不会触发组件的重新渲染的; 
 - useRef的应用场景主要是：函数组件需有访问 dom 元素的场景。 
+
+**创建 ref**
+
+https://juejin.cn/post/7243435843146498107
+
+有两种方式创建 ref，分别为 React.createRef 和 useRef。useRef 是一种 React Hook，只能在函数组件中使用。React.createRef 的使用位置不限，但不要在函数组件中使用它，如果在函数组件中用它创建 ref，那么函数组件每一次重新渲染都会创建新的 ref。
+
 
 ## useContext：定义全局状态
 

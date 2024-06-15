@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: "Frontend Interview Questions"
+  name: "Frontend Study Blog"
   # text: "preparation materials for you"
   # tagline: My great project tagline
   actions:
@@ -32,7 +32,7 @@ features:
   - title: Vue
     link: /interview/vue/guide
   - title: React
-    link: /interview/react/base
+    link: /interview/react/guide
   - title: Webpack
     link: /interview/webpack/base
   - title: Vite
