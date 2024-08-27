@@ -5,7 +5,7 @@ export default defineConfig({
   title: "Frontend Interview",
   description: "Frontend interview preparation materials",
   srcDir: "./src",
-  base: "/frontend-interview-questions/",
+  base: "/fed",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     outline: 'deep',
