@@ -15,6 +15,12 @@
 --
 P43 大家注意一下，老师这里是按照 10 版本讲的，但是在 11 版本后，Node.js 的微任务执行时机已经和浏览器保持一致了，即 每一个宏任务执行前，都要优先清空微任务。
 老师这里的 10 版本，是在宏任务队列切换前，才会去清空微任务
+
+--
+讲的挺好的，看了几本书，基本上讲的内容排布跟朴老师的深入浅出有点像，估计在补充一点，基础 node 这一块估计就讲完了。
+
+--
+讲的不错。学习《深入浅出 nodejs》,在异步 IO 这一块课本讲得太深抓不住重点，看了这个视频豁然开朗。看完视频，再看一遍书效果很好。
 :::
 
 ::: details 核心
@@ -2151,3 +2157,147 @@ Nodejs 完整事件环： ✅
 - 所微任务代码执行完后，会执行 timer 队列中满足的宏任务；
 - timer 中的所有的宏任务执行完后，就会依次切换队列（按照顺序宏任务）
 - 注意：在切换下个宏任务队列之前，会先清空微任务代码；
+- （❗️ 注意一下，老师这里是按照 10 版本讲的，但是在 11 版本后，Node.js 的微任务执行时机已经和浏览器保持一致了，即 `每一个宏任务执行前`，都要优先清空微任务。老师这里的 10 版本，是在`宏任务队列切换前`，才会去清空微任务）
+
+示例：
+
+```js
+// 宏任务
+setTimeout(() => {
+  console.log("s1");
+});
+// 微任务，Promise.resolve()是同步的，后面then的回调是微任务
+Promise.resolve().then(() => {
+  console.log("then");
+});
+// 微任务，优先级高于上面then的微任务
+process.nextTick(() => {
+  console.log("tick");
+});
+// 宏任务
+setImmediate(() => {
+  console.log("setImmediate");
+});
+console.log("end");
+// 首次同步任务，输出：start end
+// 清空微任务，输出：start end tick then
+// 宏任务timer，输出：start end tick then s1
+// 切换到poll，没有任务继续向下切换
+// 切换到check，输出：start end tick then s1 setImmediate
+```
+
+首次同步代码执行完示意图
+![9](/assets/images/nodejs9.png)
+
+### Nodejs 事件环梳理
+
+（❗️ 注意一下，老师这里是按照 10 版本讲的，但是在 11 版本后，Node.js 的微任务执行时机已经和浏览器保持一致了，即 `每一个宏任务执行前`，都要优先清空微任务。老师这里的 10 版本，是在`宏任务队列切换前`，才会去清空微任务）
+
+```js
+// 宏任务
+setTimeout(() => {
+  console.log("s1");
+  // 微任务
+  Promise.resolve().then(() => {
+    console.log("then1");
+  });
+  // 微任务
+  process.nextTick(() => {
+    console.log("tick1");
+  });
+});
+// 微任务
+Promise.resolve().then(() => {
+  console.log("then2");
+});
+console.log("start");
+// 宏任务
+setTimeout(() => {
+  console.log("s2");
+  // 微任务
+  Promise.resolve().then(() => {
+    console.log("then3");
+  });
+  // 微任务
+  process.nextTick(() => {
+    console.log("tick2");
+  });
+});
+console.log("end");
+
+// node -v v21.5.0
+// start
+// end
+// then2
+// s1
+// tick1
+// then1
+// s2
+// tick2
+// then3
+```
+
+### Nodejs 与浏览器事件环区别
+
+- 任务队列数不同
+  - 浏览器中只有 2 个任务队列（宏任务队列、微任务队列）
+  - Nodejs 中有 6 个事件队列
+- 微任务优先级不同
+  - 浏览器事件环中，微任务存放于事件队列，先进先出
+  - Nodejs 中 process.nextTick 优先 promise.then 执行
+- 同步执行完，每个宏任务执行完，都会清空微任务队列
+
+### Nodejs 事件环常见问题
+
+1. setTimeout 0 延迟问题
+
+```js
+// 宏任务，默认第二个参数是0
+setTimeout(() => {
+  console.log("s1");
+});
+// 宏任务
+setImmediate(() => {
+  console.log("setImmediate");
+});
+// setImmediate
+// s1
+// ➜  events git:(master) ✗ node ./index.js
+// s1
+// setImmediate
+// ➜  events git:(master) ✗ node ./index.js
+// setImmediate
+// s1
+
+// 原因是 setTimeout 回调 0 触发不稳定，可能会延迟的
+// 如果 setTimeout 没延迟，那 s1 在前，否则 s1 在后
+```
+
+2.
+
+```js
+const fs = require("fs");
+fs.readFile("./m1.js", () => {
+  // 宏任务，timer队列里
+  setTimeout(() => {
+    console.log("s1");
+  });
+  // 宏任务，会放到check队列
+  setImmediate(() => {
+    console.log("setImmediate");
+  });
+});
+// 快速执行几次，一直都是：
+// setImmediate
+// s1
+// 原因：
+// 先readFile回调，放到 poll 队列里
+// 然后执行回调，分别把2个宏任务放到对应队列里；
+// ✅然后，poll执行完后，切换队列是按顺序向下切换，所以就到了 setImmediate 所在任务队列即 check队列；
+```
+
+- 总结：
+  - 默认 setTimeout(0) 和 setImmediate 回调执行顺序是随机的；
+  - 如果放到 IO 回调中，那顺序就是固定的，永远都是 setImmediate 回调先执行，在执行 setTimeout(0)的回调；（原因就是 6 个队列的执行顺序有关；）
+
+## 核心模块 Stream
