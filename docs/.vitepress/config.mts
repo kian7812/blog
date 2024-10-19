@@ -322,12 +322,18 @@ export default defineConfig({
             { text: 'React', link: '/blog/jd/react' },
             { text: 'Web3', link: '/blog/jd/web3' },
           ]
+        },
+        {
+          text: 'Nodejs',
+          items: [
+            { text: '核心概念*', link: '/blog/nodejs/core-concepts' },
+          ]
         }
       ]
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/yangxqian12/frontend-interview-questions' }
+      { icon: 'github', link: 'https://github.com/kian7812/frontend-interview-questions' }
     ]
   },
   head: [
