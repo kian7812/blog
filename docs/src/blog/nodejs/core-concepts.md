@@ -2,12 +2,10 @@
 
 1. 备注：
 
-   - 核心概念笔记有一份就行了，再有别的教程学习，相关知识点放到对应段落。
    - 示例直接放到笔记就行，别放到 project 了，最后把 project/examples 里的小示例都迁移到这里
    - 如果有特殊核心概念单独拎出去也行
 
-2. 教程：
-   - Nodejs 全栈开发之 nodejs 高级编程 https://www.bilibili.com/video/BV1sA41137qw
+2. 教程 1：Nodejs 全栈开发之 nodejs 高级编程 https://www.bilibili.com/video/BV1sA41137qw
 
 ::: details 评论-讲的真心可以
 讲的真心可以，我是 70 集一集不差的看过来，每一行代码敲过来的，每一个图示用 processon 画出来，然后笔记是用 markdown 记下来的。花了 4 天时间，速度 1.5 倍速看，也是不够专注，零零散散的时间看，这个视频看似干瘪的枯燥的敲代码，上来一通说，但是这个视频是针对特定需求，专门拔高的人看，从源码的解读到模拟实现，每一集还对 node 致以尊敬，很多编程的思想也在视频中得以体现，感觉 70 集也只能说了 node 的三分之一还要少一点，但是总体的思想基本说清楚了，从 nodejs 学习计算机系统原理，又很系统的讲述了 node，相辅相成，看这视频的确需要一点门槛，很多人都是拿来主义，所以播放量少，但是绝对是好视频，后面的网络模块感觉还未说完，里面的内容真的可以在来 70 集，所以很棒～后续的 deno 开放更多的接口，如果很多借口延用 node，这个视频是可以通用的，点赞，收藏！up 主牛逼～
@@ -26,6 +24,8 @@ P43 大家注意一下，老师这里是按照 10 版本讲的，但是在 11 �
 ::: details 核心
 重要思想：事件驱动
 :::
+
+3. ✅**Nodejs 最常应用的两个模块：文件系统和网络模块**✅
 
 ## Nodejs 架构
 
@@ -403,7 +403,7 @@ process.exit();
 
 **5. 标准：输出 输入 错误（流和管道操作）**
 
-标准输出 stdout，✅ 在终端面板输出
+标准输出 stdout， 在终端面板输出，它也继承了流操作，可写 write 操作 ✅
 
 ```js
 // 示例1：
@@ -423,7 +423,7 @@ const path = require("path");
 
 // 创建一个可读流
 fs.createReadStream(path.join(__dirname + "/test.txt"))
-  // 管道，流向下一个环节，下一个环节是 stdout 标准输出，✅标准输出在终端面板上
+  // 管道，流向下一个环节，下一个环节是 stdout 标准输出，✅标准输出在终端面板上，即写到终端面板上，也是继承了流。
   .pipe(process.stdout);
 
 // 打印：hello nodejs%
@@ -2301,3 +2301,1010 @@ fs.readFile("./m1.js", () => {
   - 如果放到 IO 回调中，那顺序就是固定的，永远都是 setImmediate 回调先执行，在执行 setTimeout(0)的回调；（原因就是 6 个队列的执行顺序有关；）
 
 ## 核心模块 Stream
+
+- `ls | grep *.js` 会将管道左侧命名执行结果，再交给右侧命令进行处理
+- 文件系统和网络模块实现了流接口，Nodejs 最长使用的两个模块。
+- Nodejs 中的流就是处理流式数据的抽象接口
+- 应用程序中为什么使用流来处理数据？
+  - 同步读取资源文件，用户需要等待数据读取完成
+  - 资源文件最终一次性加载至内存，开销教大（v8 引擎默认提供内存 1G 多点）
+  - 因此可以采用流操作数据
+- 流处理数据的优势
+  - 时间效率：流的分段处理可以同时操作多个数据 chunk
+  - 空间效率：同一时间流分段无须占据大内存空间
+  - 使用方便：流可配合管道，扩展程序变得简单
+
+Node.js 中流的分类：（抽象类）
+
+- Readable： 可读流，能够实现数据的读取
+- Writeable：可写流，能够实现数据的写操作
+- Duplex： 双工流，即可读又可写，读写是独立的，可理解读写的简单合并 ✅
+- Transform：转换流，可读可写，读写是互通的，能够实现数据转换 ✅
+
+Node.js 流的特点：
+
+- Stream 模块实现了四个具体的抽象类（上面 4 个类）（常用模块如 fs http 等已经实现了流操作的接口）✅
+- 所有流都继承了 EventEmitter ✅
+
+```js
+const fs = require("fs");
+// 创建可读流，读取test内容
+const rs = fs.createReadStream("./test.txt");
+// 创建可写流，写入到test1
+const ws = fs.createWriteStream("./test1.txt");
+// 通过管道分段处理
+rs.pipe(ws);
+```
+
+### stream 可读流
+
+可读流：生产供程序消费数据的流。最常见的生产方式：读取磁盘文件，读取网络请求里的内容。✅
+
+- fs 内部已经实现了 Readable 类的接口，同时也继承了 EventEmitter 类。
+- Nodejs 中标准输出就是一个可写流。
+- 原理了解即可，常用模块已经内部实现了流的接口，使用即可。✅
+
+如何自定义可读流？
+
+- 继承 Stream 里的 Readable 类
+- 重写 `_read` 方法，调用 push 产出数据（push 推送到缓存区，供其它程序消费）
+
+- 底层数据读取完成之后如何处理？
+  - push(null)
+- 消费者如何获取可读流中的数据？
+  - 提供 2 个事件：Readable 和 data 事件
+- 消费数据为什么存在二种方式？
+  - 流动模式、暂停模式，区别就是，是否需要主动方法调用 read 方法
+
+![nodejs10](/assets/images/nodejs10.png)
+这个过程中有很多细节，这里只做大概了解可读流工作原理，常用模块已经继承了流模块。✅
+
+Readable 和 data 事件 与 pipe
+
+- Readable 和 data 事件，可自主拿到想要数据，做写自定义操作
+- pipe 则是对整体数据进行处理
+
+消费数据
+
+- Readable 事件：当流中存在可读取数据时触发，即缓存区已经准备了些数据，需要主动调用 Readable 方法来消费数据，同时可能触发\_read 继续读取底层数据到缓存区再到应用程序，直接消费者拿到 null 后，这样底层数据页被读取完了。（✅ 比较完整描述了流式读取）
+- data 事件：当流中数据块传递给消费者后触发，可读流是流动模式的，数据会被尽可能快的传递，底层数据被读取出，可能都不会调用 push 进入缓存区，直接就给消费了，同样读取到 null，读取就完成了。
+- end 事件：数据被全部消费完成后触发。
+- 还有其它事件就不展开了，看文档吧。
+
+可读流总结
+
+- 明确数据生产与消费流程
+- 利用 API 实现自定义的可读流
+- 明确数据消费的事件使用
+
+```js
+const { Readable } = require("stream");
+// 模拟底层数据
+const source = ["lg", "zce", "syy"];
+// 自定义继承 Readable
+class MyReadable extends Readable {
+  constructor(source) {
+    super();
+    this.source = source;
+  }
+  // 覆盖 父类_read方法
+  _read() {
+    const data = this.source.shift() || null; // 如果读取没了，则返回null同步非消费者，数据读取完了
+    // push 到缓存区
+    this.push(data);
+  }
+}
+// 测试：实例化
+const myReadable = new MyReadable(source);
+
+// 打印2次1
+// 原因是在Readable里默认是暂停模式，监听操作好像是读了2次
+// myReadable.on("readable", () => {
+//   console.log(1);
+// });
+
+// 示例1：使用主动调用read()方法的方式
+myReadable.on("readable", () => {
+  let data = null;
+  // 如果null说明数据读取完成了
+  // read不带参数
+  // while ((data = myReadable.read()) !== null) {
+  //   console.log(data.toString());
+  // }
+  // read带参数2
+  while ((data = myReadable.read(2)) !== null) {
+    console.log(data.toString());
+  }
+});
+// 不带参数-打印：
+// lgzce // 这里应该是缓存区已经有数据了，不用纠结这块。大概理解读取流程就行
+// syy
+// 不带参数-打印：
+// lg
+// zc
+// es
+// yy
+
+// 示例2：使用流动模式（注释上面的示例1）
+// 可能不用push缓存区直接消费使用了，看着比较舒服些
+myReadable.on("data", (chunk) => {
+  console.log(chunk.toString());
+});
+// 打印：
+// lg
+// zce
+// syy
+```
+
+### stream 可写流
+
+可写流：用于消费数据的流，常见操作：往磁盘文件写入内容，或对 tcp 和 http 网络响应进行操作。
+
+自定义可写流：
+
+- 继承 stream 模块的 Writeable
+- 重写 `_write` 方法，调用 write 执行写入
+
+可写流事件：
+
+- pipe 事件：可读流调用 pipe() 方法时触发
+- unpipe 事件：可读流调用 unpipe() 方法时触发
+- drain 事件：write() 方法返回 false，而又可以继续写入时触发。
+  - 使用流操作不会撑爆内存，如何实现的？大致原理：write() 执行时会判断下，当前想要写入的数据量是否小于当前流中设置的缓存大小上线，
+  - 如果小于返回 true 正常写入，如果大于返回 false（未完待续）
+- 其它事件：close、open、error、finish、ready
+
+```js
+// 流的拷贝，与 copyFile 一次性的读取再写入✅
+const fs = require("fs");
+// 创建一个可读流，生产数据
+const rs = fs.createReadStream("./test.txt");
+// 修改字符编码，便于后续使用
+rs.setEncoding("utf-8");
+// 创建一个可写流，消费数据
+const ws = fs.createWriteStream("./test1.txt");
+// 监听事件调用方法完成具体消费
+rs.on("data", (chunk) => {
+  // 执行数据写入
+  console.log(ws);
+  ws.write(chunk);
+});
+```
+
+```js
+// 自定义可写流
+const { Writable } = require("stream");
+class MyWritable extends Writable {
+  constructor() {
+    super();
+  }
+  // en 写入时要设置的编码集
+  _write(chunk, en, done) {
+    // 直接控制台，标准输出
+    process.stdout.write(chunk.toString() + "<---");
+    process.nextTick(done); // 异步中执行回调
+  }
+}
+const myWritable = new MyWritable();
+myWritable.write("hello write", "utf-8", () => {
+  console.log("end");
+});
+// 打印：hello write<---end
+```
+
+### stream 双工流和转换流
+
+- nodejs 中 stream 是流操作的抽象接口集合。
+- 可读、可写、双工、转换是单一抽象具体实现。
+- 流操作的核心功能是处理数据
+- Nodejs 诞生初中就是解决密集型 IO 事务
+- Nodejs 中处理数据模块继承了流和 EventEmitter
+- 日常开发中直接使用这些已继承的模块就行，不用自定义继承。了解流操作对具体模块使用，什么场景使用哪些模块，是有帮助的。✅
+
+Duplex 是双工流，同时实现了 Readable 和 Writeable，既能生产数据又能消费数据
+
+自定义双工流：
+
+- 继承 Duplex 类
+- 重写 `_read` 方法，调用 push 生产数据
+- 重写 `_write` 方法，调用 write 消费数据
+
+Transform 转换流 也是双工流；
+
+自定义双工流：
+
+- 继承 Transform 类
+- 重写 `_transform` 方法，调用 push 和 callback
+- 重写 `_flush` 方法，处理剩余数据
+
+Duplex 与 Transform 区别：
+
+- **Duplex 读写是相互独立的，读操作创建的数据不能直接被写操作当做数据源使用；Duplex 可读流数据和可写流数据，是分开处理的 ✅**
+- **Transform 这个操作是可以的，底层读写操作是连通的，读写操作操作的数据是互通的，还是对数据进行自定义转换操作 ✅**
+
+```js
+// 自定义 Duplex 双工流
+const { Duplex } = require("stream");
+// 模拟底层数据
+const source = ["a", "b", "c"];
+// 自定义双工流（简单合并读和写操作）
+class MyDuplex extends Duplex {
+  constructor(source, options) {
+    super(source, options);
+    this.source = source;
+  }
+  // 可读
+  _read() {
+    const data = this.source.shift() || null;
+    this.push(data);
+  }
+  // 可写
+  _write(chunk, enc, next) {
+    if (Buffer.isBuffer(chunk)) {
+      chunk = chunk.toString();
+    }
+    process.stdout.write(chunk + "----");
+    process.nextTick(next);
+  }
+}
+// 实例化
+const myDuplex = new MyDuplex(source);
+// 可读流的事件
+myDuplex.on("data", (chunk) => {
+  console.log(chunk.toString());
+});
+// 可写的方法；和可读是分开的
+// myDuplex.write("测试数据", "utf-8", () => {
+//   console.log("双工流测试可写操作");
+// });
+// 注意：myDuplex 可读流数据和可写流数据，是分开处理的✅
+```
+
+```js
+// 自定义 Transform 转换流
+const { Transform } = require("stream");
+
+class MyTransform extends Transform {
+  constructor() {
+    super();
+  }
+  /**
+   * _transform(chunk, encoding, callback)
+   * chunk 是从传给 write 的 stream 转换来的
+   * this.push() 把数据放到可读流里✅，这里可对chunk进行转换操作
+   * callback(err, chunk) 是 chunk 处理完成后必须要执行的；✅
+   *  传入 err 对象；
+   *  传入 chunk 与调用push的操作一样，内部调用 push(chunk)，把数据交给可读流，后面再调用 callback
+   */
+  _transform(chunk, encoding, callback) {
+    this.push(chunk.toString().toUpperCase());
+    callback(null);
+  }
+}
+const t = new MyTransform();
+t.write("a");
+// 验证是否有可读的操作，通过事件 data ✅
+t.on("data", (chunk) => {
+  console.log(chunk.toString());
+});
+/**✅
+ * 先执行写入方法，然后pipe方法，是把转换流里数据传给可写流stdout，那转换流里的数据从哪来的？
+ * 因为并没有主动调用可读流操作，这里write写入数据最终是通过push交给了可读流，从而打通了读写操作。
+ * 也就是write写入的 a b c 是在可读流中是存在的。因此在可写流stdout可输出大写的ABC
+ */
+t.pipe(process.stdout);
+```
+
+### 文件可读流创建和消费
+
+```js
+const fs = require("fs");
+// 可读流
+const rs = fs.createReadStream("./test.txt", {
+  // 以什么模式打开，r 可读
+  flags: "r",
+  // 默认 null，test内容是buffer
+  encoding: null,
+  // 标识符
+  fd: null,
+  // 十进制 438
+  mode: 438,
+  // 自动关闭文件
+  autoClose: true,
+  // 从哪个位置读取
+  start: 0,
+  // 从哪个位置结束
+  // end: 3,
+  // 每次读取多少到缓存区
+  highWaterMark: 4,
+});
+// data事件，流动模式与暂停模式切换
+// rs.on("data", (chunk) => {
+//   console.log(chunk.toString());
+//   // 暂停模式
+//   rs.pause();
+//   setTimeout(() => {
+//     // 开启流动
+//     rs.resume();
+//   }, 1000);
+// });
+// 打印：每隔1s打印2个字节，直到全部
+// 注释上面的
+// readable事件，通过主动调用read方法消费
+rs.on("readable", () => {
+  // const data = rs.read();
+  // console.log(data);
+  let data;
+  data = rs.read(1); // 参数为 1 测试
+  while (data !== null) {
+    console.log(data.toString());
+    // 查看缓冲区里字节的长度
+    console.log("--------", rs._readableState.length);
+    data = rs.read(1);
+  }
+});
+// ✅：
+// readable 事件被触发时，缓存区都会有 highWaterMark 长度的数据，
+// 当read(1)读取走1个长度字节时，那缓冲区还剩3个长度字节
+// 然后继续read(1) ...
+// 直到缓存区清空了或剩余字节长度小于要读取的长度，会触发从底层_read()读取highWaterMark 长度的数据push()到缓存区，继续上面的操作。
+// 打印：
+// h
+// -------- 3
+// e
+// -------- 2
+// l
+// -------- 1
+// l
+// -------- 0
+// o
+// -------- 0
+```
+
+### 文件可读流事件与应用
+
+```js
+// 示例使用上面代码
+// open 事件，创建或实例化文件可读流后触发 open 事件
+rs.on("open", (fd) => {
+  console.log(fd, "文件打开了");
+});
+// 默认是暂停模式，需要数据消费空后，才能触发close事件
+rs.on("close", () => {
+  console.log("文件关闭了");
+});
+// 使用data事件，切换到流程模式，数据消费完后，触发close事件
+rs.on("data", (chunk) => {
+  console.log(chunk);
+});
+// end事件，数据被清空之后触发
+rs.on("end", () => {
+  console.log("当数据被清空之后");
+});
+// error事件
+rs.on("error", (err) => {
+  console.log(err, "出错了");
+});
+// 打印：
+// 14 文件打开了
+// <Buffer 68 65 6c 6c>
+// <Buffer 6f>
+// 当数据被清空之后
+// 文件关闭了
+```
+
+```js
+// 示例使用上面代码
+const bufferArr = [];
+rs.on("data", (chunk) => {
+  bufferArr.push(chunk);
+});
+rs.on("end", () => {
+  // 拼接然后转成字符串
+  console.log(Buffer.concat(bufferArr).toString());
+});
+// 打印：hello
+```
+
+### 文件可写流应用和事件
+
+```js
+const fs = require("fs");
+// 可写流
+const ws = fs.createWriteStream("./test.txt", {
+  // 以什么模式，w 可写模式
+  flags: "w",
+  // 编码集
+  encoding: "utf-8",
+  // 标识符
+  fd: null,
+  // 十进制 438
+  mode: 438,
+  // 从哪个位置读取
+  start: 0,
+  // 每次写多少
+  highWaterMark: 3,
+});
+// write 回调函数异步操作是串行的，意思是先添加的回调会先执行，后添加的或执行。
+// ✅fs文件可写流可传入数据一般都是字符串或buffer，不能是数值等。非文件可写流可以是其它数据类型。
+ws.write("world", () => {
+  console.log("ok1");
+});
+// 继续写入 buffer
+const buf = Buffer.from("abc");
+ws.write(buf, () => {
+  console.log("ok2");
+});
+// test.txt文件会写入 worldabc
+```
+
+```js
+// open事件，ws 实例被创建就会触发open
+ws.on("open", (fd) => {
+  console.log("open", fd);
+});
+// close事件，需要主动调用end()方法后，才会触发close事件
+ws.on("close", () => {
+  console.log("文件关闭了");
+});
+// 写入 123
+ws.write("123");
+// ✅end方法调用，写入操作完成结束，会把缓存区内容清空
+ws.end();
+// ✅end结束后写入，会报错
+ws.write("456");
+// error事件
+ws.on("error", (err) => {
+  console.log("出错了");
+});
+```
+
+### write 执行流程
+
+借助源码分析 write 的流程，更好的理解数据从上游生产者传递到消费者，整个过程是如何发生的。也会明白为什么限流和控制速度。
+
+![nodejs11](/assets/images/nodejs11.png)
+
+```js
+// 可写流
+const ws = fs.createWriteStream("./test.txt", {
+  highWaterMark: 3,
+});
+// 写入1
+let flag = ws.write("1");
+console.log(flag);
+// 写入2
+flag = ws.write("2");
+console.log(flag);
+// 写入3
+flag = ws.write("3");
+console.log(flag);
+// drain 事件触发
+ws.on("drain", () => {
+  console.log("4");
+});
+```
+
+源码：
+
+- 如果传 string 会转成 buffer
+- writeOrBuffer 写或缓存操作
+- 当前累计写入 length
+- `stream._write() 》WriteStream.prototype._write()` 真正的写入操作
+- `ret = state.length < state.highWaterMark` !ret 则 needDrain = true
+
+### 控制写入速度
+
+drain 与写入速度
+
+```js
+/**
+ * 需求：'helloworld' 写入指定文件；通过 highWaterMark 控制可流量，
+ * 01 一次性写入，如果要写入字符小于 highWaterMark，又因为第一次写入不会进入缓存，就可以次一次性写入。
+ * 02 分批写入，一次write变成多次write✅，下面是分批写入示例
+ */
+const fs = require("fs");
+const ws = fs.createWriteStream("./test.txt", {
+  highWaterMark: 3,
+});
+// 字符数组
+const source = "helloworld".split("");
+const length = source.length;
+let num = 0;
+// 执行写
+function executeWrite() {
+  let flag = true;
+  while (num !== length && flag) {
+    flag = ws.write(source[num]);
+    num++;
+    console.log(num);
+  }
+}
+// 首次执行
+executeWrite();
+// drain事件，喝光的意思，应该是该缓存又有空间了，可继续写入到缓存了✅
+// 缓存被写满，与highWaterMark和 flag有关，flag为false说明被写满了✅
+ws.on("drain", () => {
+  console.log("drain 喝光了");
+  executeWrite(); // 继续写入
+});
+// 打印：
+// 1
+// 2
+// 3
+// drain 喝光了
+// 4
+// 5
+// 6
+// drain 喝光了
+// 7
+// 8
+// 9
+// drain 喝光了
+// 10
+// ✅上面分批限流方式，是有助于理解限流和pipe方法实现原理，日常开发很少使用，一般用pipe方法
+// pipe管道
+```
+
+### 背压机制
+
+- ✅55-背压机制，这节课多看视频，口述了很多，解释下面图的原理
+- 使用层面也就是 pipe 方法
+- nodejs 的 stream 已实现了保证数据平滑流动的背压机制
+- 数据读写过程，以及背压机制解决什么问题，pipe 内部实现原理大概情况
+- 流操作可以把分段东西组合到一起最后使用。
+- 流动模式和暂停模式，应该就是开关，不是程序上的一套设计模式。
+
+```js
+const rs = fs.createReadStream("./test.txt");
+const ws = fs.createWriteStream("./test1.txt");
+rs.on("data", () => {
+  ws.write(chunk);
+});
+```
+
+上面示例，数据读写可能存在的问题：
+数据从磁盘读取的速度，远大于被写入的速度，消费者速度往往跟不上生产者速度，会出现产能过剩，writeable 里维护了缓存队列，当数据不能被及时消费时，会被缓存到队列里。队列大小有上线，读写过程中，如果没有实现背压机制，很有可能出现内存溢出、GC 频繁调用、其它进程变慢。基于这种场景，就需要有一种机制，可以让数据生产者和消费者之间平滑流动，这就是背压机制 ✅。
+
+数据读操作：
+
+1. 底层数据
+2. 缓存空间，默认大小 16kb，在可读流里是 64kb
+3. 消费者，主动调用 read 方法，或者监听 data 事件来消费数据 ✅
+4. 两种工作模式：流动模式、暂停模式（默认）；
+5. 流动模式是一直放水；过剩时可调用 pause 方法切换到暂停模式，放水暂时被关闭了；
+6. 等到把缓存的水资源消费差不多后，会告送生产者可继续放水了；
+7. 消费者该如何通知生产者继续放水呢
+
+![nodejs12](/assets/images/nodejs12.png)
+
+数据写操作：
+
+1. 生产者数据
+2. 可写流内部，同样有块内存空间用来缓存队列，同样有水位线 highWaterMark，如果上游数据超过了水位线，就无法消费缓存更多水资源了，
+3. 此时 write()调用后会返回 false 给到上游生产者，生产者可暂停放水；
+4. 等消费者，把缓存中数据消费差不多后，再触发 drain 事件，告诉上游生产者可以继续放水了；
+5. 生产者，就可以调用 resume 方法，再次打开阀门继续放水了。
+6. 如此往复就能保证数据的平滑流动，即不会出现内存溢出，也不会无水可用，这就是 pipe 方法内部实现原理。
+
+![nodejs13](/assets/images/nodejs13.png)
+
+```js
+const fs = require("fs");
+const rs = fs.createReadStream("./test.txt", {
+  highWaterMark: 4, // 测试水量大点
+});
+const ws = fs.createWriteStream("./test1.txt", {
+  highWaterMark: 1, // 测试水量小点
+});
+let flag = true;
+// 流动模式消费数据
+rs.on("data", (chunk) => {
+  flag = ws.write(chunk, () => {
+    console.log("写完了");
+  });
+  console.log(flag);
+  if (!flag) {
+    // 切换到暂停模式✅（暂停模式）
+    rs.pause();
+  }
+});
+// drain事件被触发，说明可写流缓存区又有空间了，可继续流动了
+ws.on("drain", () => {
+  // 可读流打开开关继续流动，切换到流动模式✅（流动模式）
+  rs.resume();
+});
+// 上面示例就是背压机制的大概原理
+// 也是pipe内部实现大概流程
+// ✅更常见的是直接使用pipe方法，和上面的方式一样都能完成读写拷贝
+// rs.pipe(ws);
+```
+
+### 模拟文件可读流
+
+```js
+const fs = require("fs");
+const EventEmitter = require("events");
+class MyFileReadStream extends EventEmitter {
+  constructor(path, options = {}) {
+    super();
+    this.path = path;
+    this.flags = options.flags || "r"; // 读
+    this.mode = options.mode || 438; // 十进制
+    this.autoClose = options.autoClose || true;
+    this.start = options.start || 0;
+    this.end = options.end; // 读取数据结束位置
+    this.highWaterMark = options.highWaterMark || 64 * 1024; // 64kb
+    this.readOffset = 0; // 偏移量
+    this.fd = ""; // 文件id
+    // 模拟new实例化时会调用open方法，触发open事件
+    this.open();
+
+    // ✅新增事件监听时被触发，可以是随意的事件名如abc
+    this.on("newListener", (type) => {
+      console.log("type:", type); // 一次打印：open error abc data
+      if (type === "data") {
+        // ✅这个很关键，能说明为什么挂载data事件能触发可读流
+        this.read();
+      }
+    });
+  }
+  // 模拟open，触发open事件，返回文件fd
+  open() {
+    // 使用原生open方法打开指定位置的文件
+    fs.open(this.path, this.flags, this.mode, (err, fd) => {
+      if (err) {
+        this.emit("error", err);
+      } else {
+        this.fd = fd;
+        this.emit("open", fd);
+      }
+    });
+  }
+  // read方法
+  read() {
+    if (typeof this.fd !== "number") {
+      // ✅使用node开发常用发布订阅，解决获取异步获取fd的问题
+      return this.once("open", this.read);
+    }
+    // 如果有fd，比如异步监听data时，也避免重复once
+    // ✅buf是每次read申请内存空间大小
+    let buf = Buffer.alloc(this.highWaterMark);
+
+    // 兼容this.end
+    let howMuchToRead;
+    if (this.end) {
+      howMuchToRead = Math.min(
+        this.end + 1 - this.readOffset, // readOffsets和highWaterMark都是长度，this.end是位置，需要this.end+1变为长度
+        this.highWaterMark
+      );
+      // 最后 howMuchToRead 会等于0，读取的readBytes也为0，就能end了
+    } else {
+      howMuchToRead = this.highWaterMark;
+    }
+
+    // type === "data"读取数据是流动模式
+    fs.read(
+      this.fd,
+      buf, // 内存空间
+      0, // 从buf哪个字节位置开始写
+      howMuchToRead, // 一次读多少
+      this.readOffset, // 从文件哪个字节位置开始读取
+      (err, readBytes) => {
+        // 如果有数据
+        if (readBytes) {
+          this.readOffset += readBytes; // readBytes 应该是字节数量
+          // 模拟data事件
+          this.emit("data", buf.slice(0, readBytes)); // 返回每次内存空间里readBytes长度字节，每次从0开始代表内存空间会使用完被清理
+          // 流动模式需要一直读数据
+          this.read();
+        } else {
+          // 直到没有数据
+          // 模拟end事件
+          this.emit("end");
+          // 模拟close
+          this.close();
+        }
+      }
+    );
+  }
+  // close方法，模拟close事件
+  close() {
+    fs.close(this.fd, () => {
+      this.emit("close");
+    });
+  }
+  // 模拟pipe方法
+  pipe(ws) {
+    this.on("data", (data) => {
+      // 写入
+      let flag = ws.write(data);
+      // 缓存区写满，暂停
+      if (!flag) {
+        this.pause();
+      }
+    });
+    ws.on("drain", () => {
+      // 触发drain继续读，然后触发上面的data事件
+      this.resume();
+    });
+  }
+}
+const rs = new MyFileReadStream("./test.txt", {
+  highWaterMark: 3,
+  end: 7, // 读取结束位置 0 - 7 字节 共 8个 字节
+});
+rs.on("open", (fd) => {
+  console.log("open", fd);
+});
+rs.on("error", (error) => {
+  console.log("error", error);
+});
+rs.on("abc", () => {
+  console.log("abc");
+});
+rs.on("data", (chunk) => {
+  console.log("chunk:", chunk);
+});
+rs.on("end", () => {
+  console.log("end");
+});
+rs.on("close", () => {
+  console.log("close");
+});
+```
+
+### 单向链表实现
+
+```js
+/**
+ * 01 node + head + null
+ * 02 head --> null
+ * 03 size
+ * 04 next element
+ * 05 增加 删除 修改 查询 清空
+ */
+class Node {
+  constructor(element, next) {
+    this.element = element;
+    this.next = next;
+  }
+}
+class LinkedList {
+  constructor(head, size) {
+    this.head = null;
+    this.size = 0;
+  }
+  _getNode(index) {
+    if (index < 0 || index >= this.size) {
+      throw new Error("cross the border");
+    }
+    let currentNode = this.head;
+    for (let i = 0; i < index; i++) {
+      currentNode = currentNode.next;
+    }
+    return currentNode;
+  }
+  add(index, element) {
+    if (arguments.length === 1) {
+      element = index;
+      index = this.size;
+    }
+    if (index < 0 || index > this.size) {
+      throw new Error("cross the border");
+    }
+
+    if (index === 0) {
+      const head = this.head;
+      this.head = new Node(element, head);
+    } else {
+      const preNode = this._getNode(index - 1);
+      preNode.next = new Node(element, preNode.next);
+    }
+    this.size++;
+  }
+  remove(index) {
+    let rmNode = null;
+    if (index === 0) {
+      rmNode = this.head;
+      if (!rmNode) {
+        return;
+      }
+      this.head = rmNode.next;
+    } else {
+      const prevNode = this._getNode(index - 1);
+      rmNode = prevNode.next;
+      prevNode.next = rmNode.next;
+    }
+    this.size--;
+    return rmNode;
+  }
+  set(index, element) {
+    const node = this._getNode(index);
+    node.element = element;
+  }
+  get(index) {
+    return this._getNode(index);
+  }
+  clear() {
+    this.head = null;
+    this.size = 0;
+  }
+}
+// const l1 = new LinkedList();
+// l1.add("node1");
+// l1.add("node2");
+// l1.add(1, "node3");
+// l1.set(1, "node33");
+// l1.remove(1);
+// console.log("get:", l1.get(1));
+// l1.clear();
+// console.log(l1);
+```
+
+### 单向链表实现队列
+
+```js
+class Queue {
+  constructor() {
+    this.linkedList = new LinkedList();
+  }
+  enQueue(data) {
+    this.linkedList.add(data);
+  }
+  deQueue() {
+    return this.linkedList.remove(0);
+  }
+}
+const q = new Queue();
+q.enQueue("node1");
+q.enQueue("node2");
+let a = q.deQueue();
+console.log("a1:", a);
+a = q.deQueue();
+console.log("a2:", a);
+a = q.deQueue();
+console.log("a3:", a);
+// a1: Node { element: 'node1', next: Node { element: 'node2', next: null } }
+// a2: Node { element: 'node2', next: null }
+// a3: undefined
+```
+
+### 文件可写流实现
+
+```js
+const fs = require("fs");
+const EventsEmitter = require("events");
+const Queue = require("../utils/linkedList");
+
+class MyWriteStream extends EventsEmitter {
+  constructor(path, options = {}) {
+    super();
+    this.path = path;
+    this.flags = options.flags || "w"; // 写
+    this.mode = options.mode || 438; // 十进制
+    this.autoClose = options.autoClose || true;
+    this.start = options.start || 0;
+    this.encoding = options.encoding || "utf8";
+    this.highWaterMark = options.highWaterMark || 16 * 1024; // 16kb
+
+    this.open();
+    this.fd = undefined;
+    this.writeOffset = this.start;
+    this.writing = false;
+    this.writeLen = 0; // 动态累计写入量，写入前++，写入后--
+    this.needDrain = false; // 是否需要触发drain事件
+    this.cache = new Queue(); // 缓存区
+  }
+  open() {
+    // 原生 fs.open
+    fs.open(this.path, this.flags, (err, fd) => {
+      if (err) {
+        this.emit("error", err);
+      }
+      // 正常打开
+      this.fd = fd;
+      this.emit("open", fd);
+    });
+  }
+  // 模拟write 主流程
+  write(chunk, encoding, cb) {
+    // chunk只考虑string和buffer类型
+    chunk = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+    this.writeLen += chunk.length;
+    let flag = this.writeLen < this.highWaterMark; // 判断
+    this.needDrain = !flag; // 是否需要drain
+    if (this.writing) {
+      // 放入缓存，进行排队
+      this.cache.enQueue({ chunk, encoding, cb });
+    } else {
+      // 执行写入
+      this.writing = true;
+      this._write(chunk, encoding, () => {
+        cb();
+        // 清空排队内容
+        this._clearBuffer();
+      });
+    }
+    return flag; // 最后返回
+  }
+  // 写入方法
+  _write(chunk, encoding, cb) {
+    if (typeof this.fd !== "number") {
+      return this.once("open", () => {
+        return this._write(chunk, encoding, cb);
+      });
+    }
+    fs.write(
+      this.fd,
+      chunk,
+      this.start,
+      chunk.length,
+      this.writeOffset,
+      (err, written) => {
+        this.writeOffset += written; // 写入量
+        this.writeLen -= written; //
+        if (cb) cb();
+      }
+    );
+  }
+  // 清空缓存，递归
+  _clearBuffer() {
+    let data = this.cache.deQueue();
+    if (data) {
+      this._write(data.element.chunk, data.element.encoding, () => {
+        if (data.element.cb) data.element.cb();
+        this._clearBuffer(); // 确实是清空缓存
+      });
+    } else {
+      // 缓存区清空后
+      // 判断触发drain事件
+      if (this.needDrain) {
+        this.needDrain = false;
+        this.emit("drain");
+      }
+    }
+  }
+}
+const ws = new MyWriteStream("./test.txt", {
+  highWaterMark: 1,
+});
+ws.on("open", (fd) => {
+  console.log("open->fd:", fd);
+});
+ws.on("drain", (fd) => {
+  console.log("drain");
+});
+ws.write("12", "utf8", () => {
+  console.log("ok1");
+});
+ws.write("34", "utf8", () => {
+  console.log("ok3");
+});
+```
+
+### pipe 方法
+
+**pipe 方法是文件读写操作的终极语法糖。日常开发文件拷贝操作使用 pipe 方法居多 ✅。**
+
+- 底层基于流实现的。
+- 使用场景也是文件读写操作。读写也是拷贝的操作。
+
+```js
+/**
+ * rs 读取数据
+ * pipe 管道
+ * ws 写入数据
+ * 模拟pipe实现在[模拟文件可读流]里
+ */
+const fs = require("fs");
+const rs = fs.createReadStream("./test.txt", {
+  highWaterMark: 4, // 默认64kb
+});
+const ws = fs.createWriteStream("./test1.txt", {
+  highWaterMark: 1, // 默认16kb
+});
+rs.pipe(ws);
+```
+
+## 通信基本原理
