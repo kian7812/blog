@@ -2,15 +2,19 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Frontend Interview",
-  description: "Frontend interview preparation materials",
+  // 导航最左标题
+  title: "Kian's Blog",
+  description: "Frontend Study Blog",
+  // 文档入口
   srcDir: "./src",
+  // 根目录
   base: "/blog",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     outline: 'deep',
     outlineTitle: '本页目录',
 
+    // 顶部导航
     nav: [
       // { text: 'Home', link: '/' },
       {
@@ -34,7 +38,7 @@ export default defineConfig({
       },
       { text: 'Blog', link: '/blog/guide', activeMatch: '/blog/' }
     ],
-
+    // 每个路由对应的左侧菜单
     sidebar: {
       '/interview/htmlcss/': [
         {
@@ -332,10 +336,12 @@ export default defineConfig({
       ]
     },
 
+    // 导航最右
     socialLinks: [
       { icon: 'github', link: 'https://github.com/kian7812/blog' }
     ]
   },
+  // head标签
   head: [
     ['link', { rel: 'shortcut icon', href: '/blog/favicon.ico' }],
     ['link', { rel: 'icon', type: 'image/x-icon', href: '/blog/favicon.ico' }],
