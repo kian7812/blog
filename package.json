@@ -1,7 +1,7 @@
 {
-  "name": "frontend-interview-questions",
+  "name": "Kian's blog",
   "version": "1.0.0",
-  "description": "frontend interview questions",
+  "description": "blog blog blog",
   "main": "index.js",
   "scripts": {
     "dev": "vitepress dev docs",
