@@ -5,7 +5,7 @@ export default defineConfig({
   title: "Frontend Interview",
   description: "Frontend interview preparation materials",
   srcDir: "./src",
-  base: "/fed",
+  base: "/blog",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     outline: 'deep',
@@ -333,11 +333,11 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/kian7812/frontend-interview-questions' }
+      { icon: 'github', link: 'https://github.com/kian7812/blog' }
     ]
   },
   head: [
-    ['link', { rel: 'shortcut icon', href: '/frontend-interview-questions/favicon.ico' }],
-    ['link', { rel: 'icon', type: 'image/x-icon', href: '/frontend-interview-questions/favicon.ico' }],
+    ['link', { rel: 'shortcut icon', href: '/blog/favicon.ico' }],
+    ['link', { rel: 'icon', type: 'image/x-icon', href: '/blog/favicon.ico' }],
   ],
 })
