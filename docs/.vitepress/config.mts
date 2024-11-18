@@ -21,7 +21,7 @@ export default defineConfig({
         text: 'Interview',
         items: [
           { text: '1 Vue', link: '/interview/vue/guide', activeMatch: '/vue/' },
-          { text: '1 React', link: '/interview/react/guide', activeMatch: '/react/' },
+          { text: '1 React', link: '/react/guide', activeMatch: '/react/' },
           { text: '2 JavaScript', link: '/interview/javascript/base/1', activeMatch: '/javascript/' },
           { text: '2 HTMLCSS', link: '/interview/htmlcss/css-1', activeMatch: '/htmlcss/' },
           { text: '2 Browser', link: '/interview/browser/network', activeMatch: '/browser/' },
@@ -129,45 +129,45 @@ export default defineConfig({
           ]
         }
       ],
-      '/interview/react/': [
+      '/react/': [
         {
           text: '导读',
           items: [
-            { text: "Guide", link: '/interview/react/guide' },
+            { text: "Guide", link: '/react/guide' },
           ]
         },
         {
           text: 'React文档',
           items: [
-            { text: "Hooks", link: '/interview/react/doc-react-hooks' },
-            { text: "Hooks1", link: '/interview/react/doc-react-hooks1' },
-            { text: "Hooks2", link: '/interview/react/doc-react-hooks2' },
-            { text: "React Components", link: '/interview/react/doc-react-components' },
-            { text: "React API", link: '/interview/react/doc-react-apis' },
-            { text: "React DOM Hooks 组件 API", link: '/interview/react/doc-react-dom-hooks-components-apis' },
-            { text: "React 规则", link: '/interview/react/doc-rules' },
-            { text: "描述 UI", link: '/interview/react/doc-describing-the-ui' },
-            { text: "添加交互", link: '/interview/react/doc-adding-interactivity' },
-            { text: "状态管理", link: '/interview/react/doc-managing-state' },
-            { text: "脱围机制 ref", link: '/interview/react/doc-escape-hatches-ref' },
-            { text: "脱围机制 effect", link: '/interview/react/doc-escape-hatches-effect' },
-            { text: "脱围机制 hook", link: '/interview/react/doc-escape-hatches-hook' },
+            { text: "Hooks", link: '/react/doc-react-hooks' },
+            { text: "Hooks1", link: '/react/doc-react-hooks1' },
+            { text: "Hooks2", link: '/react/doc-react-hooks2' },
+            { text: "React Components", link: '/react/doc-react-components' },
+            { text: "React API", link: '/react/doc-react-apis' },
+            { text: "React DOM Hooks 组件 API", link: '/react/doc-react-dom-hooks-components-apis' },
+            { text: "React 规则", link: '/react/doc-rules' },
+            { text: "描述 UI", link: '/react/doc-describing-the-ui' },
+            { text: "添加交互", link: '/react/doc-adding-interactivity' },
+            { text: "状态管理", link: '/react/doc-managing-state' },
+            { text: "脱围机制 ref", link: '/react/doc-escape-hatches-ref' },
+            { text: "脱围机制 effect", link: '/react/doc-escape-hatches-effect' },
+            { text: "脱围机制 hook", link: '/react/doc-escape-hatches-hook' },
           ]
         },
         {
           text: 'React题',
           items: [
-            { text: "基础", link: '/interview/react/base' },
-            { text: "React18", link: '/interview/react/18' },
-            { text: "事件", link: '/interview/react/event' },
-            { text: "高阶组件", link: '/interview/react/hoc' },
-            { text: "Hooks", link: '/interview/react/hooks' },
-            { text: "Fiber", link: '/interview/react/fiber' },
-            { text: "Diff", link: '/interview/react/diff' },
-            { text: "路由", link: '/interview/react/router' },
-            { text: "状态管理", link: '/interview/react/store' },
-            { text: "优化", link: '/interview/react/optimize' },
-            { text: "SSR", link: '/interview/react/ssr' },
+            { text: "基础", link: '/react/base' },
+            { text: "React18", link: '/react/18' },
+            { text: "事件", link: '/react/event' },
+            { text: "高阶组件", link: '/react/hoc' },
+            { text: "Hooks", link: '/react/hooks' },
+            { text: "Fiber", link: '/react/fiber' },
+            { text: "Diff", link: '/react/diff' },
+            { text: "路由", link: '/react/router' },
+            { text: "状态管理", link: '/react/store' },
+            { text: "优化", link: '/react/optimize' },
+            { text: "SSR", link: '/react/ssr' },
 
           ]
         },

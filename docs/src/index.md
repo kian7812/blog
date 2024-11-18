@@ -16,11 +16,11 @@ hero:
 
 features:
   # - title: Feature A
-    # details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  # details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
   # - title: Feature B
-    # details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  # details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
   # - title: Feature C
-    # details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  # details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
   - title: HTMLCSS
     link: /interview/htmlcss/css-1
   - title: JavaScript
@@ -32,7 +32,7 @@ features:
   - title: Vue
     link: /interview/vue/guide
   - title: React
-    link: /interview/react/guide
+    link: /react/guide
   - title: Webpack
     link: /interview/webpack/base
   - title: Vite
@@ -42,6 +42,5 @@ features:
   - title: Nuxt
     link: /interview/nuxt/base
   - title: Performance
-    link: /interview/performance/guide  
+    link: /interview/performance/guide
 ---
-
