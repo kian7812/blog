@@ -21,7 +21,7 @@ export default defineConfig({
         text: 'Interview',
         items: [
           { text: '1 Vue', link: '/interview/vue/guide', activeMatch: '/vue/' },
-          { text: '1 React', link: '/react/guide', activeMatch: '/react/' },
+          { text: 'React', link: '/react/guide', activeMatch: '/react/' },
           { text: '2 JavaScript', link: '/interview/javascript/base/1', activeMatch: '/javascript/' },
           { text: '2 HTMLCSS', link: '/interview/htmlcss/css-1', activeMatch: '/htmlcss/' },
           { text: '2 Browser', link: '/interview/browser/network', activeMatch: '/browser/' },
