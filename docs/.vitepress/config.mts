@@ -18,9 +18,9 @@ export default defineConfig({
     nav: [
       // { text: 'Home', link: '/' },
       {
-        text: 'Interview',
+        text: 'Review',
         items: [
-          { text: '1 Vue', link: '/interview/vue/guide', activeMatch: '/vue/' },
+          { text: 'Vue', link: '/vue/guide', activeMatch: '/vue/' },
           { text: 'React', link: '/react/guide', activeMatch: '/react/' },
           { text: '2 JavaScript', link: '/interview/javascript/base/1', activeMatch: '/javascript/' },
           { text: '2 HTMLCSS', link: '/interview/htmlcss/css-1', activeMatch: '/htmlcss/' },
@@ -96,38 +96,47 @@ export default defineConfig({
           ]
         }
       ],
-      '/interview/vue/': [
+      '/vue/': [
         {
           text: 'Vue',
           items: [
-            { text: "Guide", link: '/interview/vue/guide' },
+            { text: "Guide", link: '/vue/guide' },
 
           ]
         },
         {
           text: 'Vue3',
           items: [
-            { text: "基础", link: '/interview/vue/3-base' },
-            { text: "响应式", link: '/interview/vue/3-reactivity' },
-            { text: "使用", link: '/interview/vue/3-use' },
-            { text: "Setup", link: '/interview/vue/3-setup' },
-            { text: "Typescript", link: '/interview/vue/3-ts' },
-            { text: "Router", link: '/interview/vue/3-router' },
-            { text: "Pinia", link: '/interview/vue/3-pinia' },
-            { text: "QA", link: '/interview/vue/3-qa' },
+            { text: "基础", link: '/vue/3-base' },
+            { text: "响应式", link: '/vue/3-reactivity' },
+            { text: "使用", link: '/vue/3-use' },
+            { text: "Setup", link: '/vue/3-setup' },
+            { text: "Typescript", link: '/vue/3-ts' },
+            { text: "Router", link: '/vue/3-router' },
+            { text: "Pinia", link: '/vue/3-pinia' },
+            { text: "QA", link: '/vue/3-qa' },
           ]
         },
         {
           text: 'Vue2',
           items: [
-            { text: "基础", link: '/interview/vue/2-base' },
-            { text: "响应式", link: '/interview/vue/2-reactivity' },
-            { text: "nextTick(2/3)", link: '/interview/vue/2-nexttick' },
-            { text: "渲染PatchDiff", link: '/interview/vue/2-render-patch-diff' },
-            { text: "编译", link: '/interview/vue/2-compile' },
-            { text: "QA", link: '/interview/vue/2-qa' },
+            { text: "基础", link: '/vue/2-base' },
+            { text: "响应式", link: '/vue/2-reactivity' },
+            { text: "nextTick(2/3)", link: '/vue/2-nexttick' },
+            { text: "渲染PatchDiff", link: '/vue/2-render-patch-diff' },
+            { text: "编译", link: '/vue/2-compile' },
+            { text: "QA", link: '/vue/2-qa' },
           ]
-        }
+        },
+        {
+          text: 'Vue题',
+          items: [
+            { text: 'Vue3中的响应式原理*', link: '/vue/1/reactivity' },
+            { text: 'Vue2响应式原理概述*', link: '/vue/2/reactivity' },
+            { text: 'Vue2批量异步更新与nextTick原理', link: '/vue/2/nexttick' },
+            { text: 'Vue2组件渲染流程', link: '/vue/2/renderpatch' },
+          ]
+        },
       ],
       '/react/': [
         {
@@ -308,15 +317,6 @@ export default defineConfig({
           text: '正则表达式',
           items: [
             { text: '正则表达式系列', link: '/blog/regexp/1' },
-          ]
-        },
-        {
-          text: 'Vue',
-          items: [
-            { text: 'Vue3中的响应式原理*', link: '/blog/vue/1/reactivity' },
-            { text: 'Vue2响应式原理概述*', link: '/blog/vue/2/reactivity' },
-            { text: 'Vue2批量异步更新与nextTick原理', link: '/blog/vue/2/nexttick' },
-            { text: 'Vue2组件渲染流程', link: '/blog/vue/2/renderpatch' },
           ]
         },
         {
