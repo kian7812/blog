@@ -131,10 +131,11 @@ export default defineConfig({
         {
           text: 'Vue题',
           items: [
-            { text: 'Vue3中的响应式原理*', link: '/vue/1/reactivity' },
-            { text: 'Vue2响应式原理概述*', link: '/vue/2/reactivity' },
-            { text: 'Vue2批量异步更新与nextTick原理', link: '/vue/2/nexttick' },
-            { text: 'Vue2组件渲染流程', link: '/vue/2/renderpatch' },
+            { text: 'Vue3中的响应式原理*', link: '/vue/3-reactivity-1' },
+            { text: 'Vue3计算属性原理*', link: '/vue/3-computed' },
+            { text: 'Vue2响应式原理概述*', link: '/vue/2-reactivity-1' },
+            { text: 'Vue2批量异步更新与nextTick原理', link: '/vue/2-nexttick-1' },
+            { text: 'Vue2组件渲染流程', link: '/vue/2-render-patch' },
           ]
         },
       ],

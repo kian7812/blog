@@ -30,7 +30,7 @@ features:
   - title: Algorithm
     link: /interview/algorithm/guide
   - title: Vue
-    link: /interview/vue/guide
+    link: /vue/guide
   - title: React
     link: /react/guide
   - title: Webpack
