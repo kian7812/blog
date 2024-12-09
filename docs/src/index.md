@@ -40,7 +40,7 @@ features:
   - title: Nextjs
     link: /interview/nextjs/base
   - title: Nuxt
-    link: /interview/nuxt/base
+    link: /nuxt/base
   - title: Performance
     link: /interview/performance/guide
 ---

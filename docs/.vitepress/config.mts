@@ -21,6 +21,7 @@ export default defineConfig({
         text: 'Review',
         items: [
           { text: 'Vue', link: '/vue/guide', activeMatch: '/vue/' },
+          { text: 'Nuxt', link: '/nuxt/base', activeMatch: '/nuxt/' },
           { text: 'React', link: '/react/guide', activeMatch: '/react/' },
           { text: '2 JavaScript', link: '/interview/javascript/base/1', activeMatch: '/javascript/' },
           { text: '2 HTMLCSS', link: '/interview/htmlcss/css-1', activeMatch: '/htmlcss/' },
@@ -28,7 +29,6 @@ export default defineConfig({
           { text: '2 Performance', link: '/interview/performance/guide', activeMatch: '/performance/' },
           { text: '3 TypeScript', link: '/interview/typescript/guide', activeMatch: '/typescript/' },
           { text: '3 Webpack', link: '/interview/webpack/base', activeMatch: '/webpack/' },
-          { text: '4 Nuxt', link: '/interview/nuxt/base', activeMatch: '/nuxt/' },
           { text: '4 Nextjs', link: '/interview/nextjs/base', activeMatch: '/nextjs/' },
           { text: '4 Starter', link: '/interview/starter/guide', activeMatch: '/starter/' },
           { text: '6 Algorithm', link: '/interview/algorithm/guide', activeMatch: '/algorithm/' },
@@ -107,11 +107,12 @@ export default defineConfig({
         {
           text: 'Vue3',
           items: [
-            { text: "基础", link: '/vue/3-base' },
-            { text: "响应式", link: '/vue/3-reactivity' },
+            { text: "文档", link: '/vue/3-doc' },
+            { text: "文档·Api", link: '/vue/3-api' },
+            { text: "文档·Typescript", link: '/vue/3-doc-ts' },
+            { text: "响应式简述", link: '/vue/3-reactivity' },
+            { text: '响应式源码', link: '/vue/3-reactivity-1' },
             { text: "使用", link: '/vue/3-use' },
-            { text: "Setup", link: '/vue/3-setup' },
-            { text: "Typescript", link: '/vue/3-ts' },
             { text: "Router", link: '/vue/3-router' },
             { text: "Pinia", link: '/vue/3-pinia' },
             { text: "QA", link: '/vue/3-qa' },
@@ -125,17 +126,23 @@ export default defineConfig({
             { text: "nextTick(2/3)", link: '/vue/2-nexttick' },
             { text: "渲染PatchDiff", link: '/vue/2-render-patch-diff' },
             { text: "编译", link: '/vue/2-compile' },
-            { text: "QA", link: '/vue/2-qa' },
-          ]
-        },
-        {
-          text: 'Vue题',
-          items: [
-            { text: 'Vue3中的响应式原理*', link: '/vue/3-reactivity-1' },
-            { text: 'Vue3计算属性原理*', link: '/vue/3-computed' },
             { text: 'Vue2响应式原理概述*', link: '/vue/2-reactivity-1' },
             { text: 'Vue2批量异步更新与nextTick原理', link: '/vue/2-nexttick-1' },
             { text: 'Vue2组件渲染流程', link: '/vue/2-render-patch' },
+            { text: "QA", link: '/vue/2-qa' },
+          ]
+        },
+      ],
+      '/nuxt/': [
+        {
+          text: 'Nuxt3 面试题',
+          items: [
+            { text: "基础", link: '/nuxt/base' },
+            { text: "渲染模式", link: '/nuxt/rendering' },
+            { text: "数据获取", link: '/nuxt/fetching' },
+            { text: "服务器", link: '/nuxt/server' },
+            { text: "项目模版", link: '/nuxt/starter' },
+            { text: "QA1", link: '/nuxt/qa1' },
           ]
         },
       ],
@@ -221,19 +228,6 @@ export default defineConfig({
             { text: "优化", link: '/interview/nextjs/optimize' },
             { text: "QA1", link: '/interview/nextjs/qa1' },
             { text: "QA2", link: '/interview/nextjs/qa2' },
-          ]
-        },
-      ],
-      '/interview/nuxt/': [
-        {
-          text: 'Nuxt3 面试题',
-          items: [
-            { text: "基础", link: '/interview/nuxt/base' },
-            { text: "渲染模式", link: '/interview/nuxt/rendering' },
-            { text: "数据获取", link: '/interview/nuxt/fetching' },
-            { text: "服务器", link: '/interview/nuxt/server' },
-            { text: "项目模版", link: '/interview/nuxt/starter' },
-            { text: "QA1", link: '/interview/nuxt/qa1' },
           ]
         },
       ],
