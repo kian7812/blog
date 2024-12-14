@@ -6,6 +6,17 @@ Vue3 中的响应式是如何被 JavaScript 实现的（清风）
 - 这篇就够了~✅ 文字描述比较适合我
 - 这篇是文字简述，适合面试题 ✅
 
+## 参考 vue2 流程和 vue3 是一样的 /vue/2-reactivity-1.html
+
+1.（\_init -> initState -> initData -> observe）
+
+- Vue 组件初始化时会将数据对象 data，进行递归观测 observe，
+- 数据观测时，如果值为数据，会对数组数据进行原型链重写 value.**proto** = arrayMethods，指向重写的数组方法对象上，然后遍历每个数组元素再进行观测，
+- 如果为对象，则遍历对象属性进行 defineReactive 响应式处理，先是每个属性都会创建一个 Dep 实例，为依赖收集做准备，然后通过 Object.defineProperty 把对象 property 全部转为 getter/setter，
+- 当属性被访问时触发 getter 函数，返回属性值，同时 Dep 实例做依赖收集。
+- 当属性值变更时，会触发 setter 函数，进行属性赋值和对新值进行数据观测响应式化，同时属性的依赖会通知所有订阅者 Watcher 进行更新 update，从而使与关联的组件重新渲染，最后更新视图。
+- 注意：`数据观测时，并没触发 getter和setter`。同时 defineReactive 会缓存 new Dep 依赖实例，意思属性在运行时依赖实例时不变的等
+
 ## 开始之前
 
 源码中拥有非常多的条件分支判断和错误处理，同时源码中也考虑了数组、Set、Map 之类的数据结构。
