@@ -1,5 +1,7 @@
 # Guide
 
+（不错）球球的前端奶茶屋 -【前端】chrome调试动画和性能 https://www.bilibili.com/video/BV1eu41157nJ
+
 
 https://youngzhang08.github.io/2018/08/14/%E4%BB%8EF12%E7%9A%84performance%E7%BB%86%E7%9C%8B%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93/
 
@@ -90,3 +92,29 @@ https://www.bilibili.com/video/BV1bm4y1S7MX（一般只是介绍了概念，没�
 
 pagespeed 教程
 https://www.youtube.com/watch?v=PU10N-uTFmg
+
+
+如何回答性能优化的问题：
+单页面首屏优化，打包后大小减少64M，加载速度快了13.6秒（做了哪些事情，效果如何，如何做的）
+https://juejin.cn/post/7359077652445806642
+https://mp.weixin.qq.com/s/hzhXQaEQ8TmAgnNwqJ1lMw
+
+「-待-非常不错-谭光志-」前端性能优化 24 条建议（2020） https://juejin.cn/post/6892994632968306702
+
+URL输入到页面加载期间的性能优化总结
+https://blog.csdn.net/aaaaaaliang/article/details/100188485
+
+面试必问——前端页面性能指标基本介绍
+https://mp.weixin.qq.com/s/rA2gv3nKoUfcchdYBAdykg
+
+从URL到页面，如何优化性能？
+https://blog.csdn.net/luke_up/article/details/53911481
+页面加载性能优化
+https://www.cnblogs.com/cczlovexw/p/11754301.html
+雅虎前端优化35军规
+https://www.cnblogs.com/xianyulaodi/p/5755079.html
+
+https://www.cnblogs.com/yzhihao/p/9385467.html
+
+
+*https://juejin.cn/post/7117515006714839047 

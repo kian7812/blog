@@ -46,3 +46,6 @@ Vue3
   - https://juejin.cn/user/668147376989517/posts
   - https://juejin.cn/post/7124351370521477128
 - 其它：先看下笔记导航里的
+
+
+Vue 3.0 核心源码解析 https://www.bilibili.com/video/BV15e411z7YJ

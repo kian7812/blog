@@ -1,4 +1,8 @@
-# XSS包
+# 前端安全
+
+李鹏周老师-前端必知的Web安全 https://www.bilibili.com/video/BV1AQ4y1E729
+
+## XSS包
 
 ```js
 import xss from 'xss' // 导入xss包

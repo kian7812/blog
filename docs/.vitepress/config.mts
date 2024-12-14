@@ -37,6 +37,7 @@ export default defineConfig({
       { text: 'Performance', link: '/performance/guide', activeMatch: '/performance/' },
       { text: 'Algorithm', link: '/algorithm/guide', activeMatch: '/algorithm/' },
       { text: 'Nodejs', link: '/nodejs/guide', activeMatch: '/nodejs/' },
+      { text: 'Scaffold', link: '/scaffold/guide', activeMatch: '/scaffold/' },
       { text: 'Doc', link: '/doc/guide', activeMatch: '/doc/' }
     ],
     // 每个路由对应的左侧菜单
@@ -140,6 +141,12 @@ export default defineConfig({
             { text: "QA", link: '/vue/2-qa' },
           ]
         },
+        {
+          text: 'VueRouter',
+          items: [
+            { text: "路由", link: '/vue/router' },
+          ]
+        },
       ],
       '/nuxt/': [
         {
@@ -223,6 +230,40 @@ export default defineConfig({
             { text: "React", link: '/performance/react-nextjs' },
           ]
         },
+        {
+          text: '题',
+          items: [
+            { text: "QA1", link: '/performance/qa1' },
+            { text: "QA2", link: '/performance/qa2' },
+            { text: "QA3", link: '/performance/qa3' },
+          ]
+        },
+      ],
+      '/scaffold/': [
+        {
+          text: 'Vite面试题',
+          items: [
+            { text: "基础", link: '/scaffold/vite/base' },
+            { text: "优化", link: '/scaffold/vite/optimize' },
+            { text: "插件", link: '/scaffold/vite/plugin' },
+            { text: "配置", link: '/scaffold/vite/setting' },
+          ]
+        },
+        {
+          text: 'Webpack题',
+          items: [
+            { text: "导读", link: '/scaffold/webpack/guide' },
+            { text: "基础", link: '/scaffold/webpack/base' },
+            { text: "Chunk", link: '/scaffold/webpack/chunk' },
+            { text: "Loader", link: '/scaffold/webpack/loader' },
+            { text: "Plugin", link: '/scaffold/webpack/plugin' },
+            { text: "HMR", link: '/scaffold/webpack/hmr' },
+            { text: "TreeShaking", link: '/scaffold/webpack/tree-shaking' },
+            { text: "Webpack5", link: '/scaffold/webpack/5' },
+            { text: "优化", link: '/scaffold/webpack/optimize' },
+            { text: "Bundle打包后", link: '/scaffold/webpack/bundle' },
+          ]
+        },
       ],
       '/algorithm/': [
         {
@@ -284,30 +325,6 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Vite面试题',
-          items: [
-            { text: "基础", link: '/doc/vite/base' },
-            { text: "优化", link: '/doc/vite/optimize' },
-            { text: "插件", link: '/doc/vite/plugin' },
-            { text: "配置", link: '/doc/vite/setting' },
-          ]
-        },
-        {
-          text: 'Webpack题',
-          items: [
-            { text: "导读", link: '/doc/webpack/guide' },
-            { text: "基础", link: '/doc/webpack/base' },
-            { text: "Chunk", link: '/doc/webpack/chunk' },
-            { text: "Loader", link: '/doc/webpack/loader' },
-            { text: "Plugin", link: '/doc/webpack/plugin' },
-            { text: "HMR", link: '/doc/webpack/hmr' },
-            { text: "TreeShaking", link: '/doc/webpack/tree-shaking' },
-            { text: "Webpack5", link: '/doc/webpack/5' },
-            { text: "优化", link: '/doc/webpack/optimize' },
-            { text: "Bundle打包后", link: '/doc/webpack/bundle' },
-          ]
-        },
-        {
           text: '正则表达式',
           items: [
             { text: '正则表达式系列', link: '/doc/regexp/1' },
@@ -334,12 +351,14 @@ export default defineConfig({
           ]
         },
         {
-          text: '工具',
+          text: '使用',
           items: [
-            { text: 'Base', link: '/doc/tool/base' },
-            { text: 'Guide', link: '/doc/tool/guide' },
-            { text: 'Xss', link: '/doc/tool/xss' },
-            { text: 'Hybird', link: '/doc/tool/hybird' },
+            { text: 'Base', link: '/doc/use/base' },
+            { text: 'Guide', link: '/doc/use/guide' },
+            { text: 'Xss', link: '/doc/use/xss' },
+            { text: 'Hybird', link: '/doc/use/hybird' },
+            { text: 'Icon', link: '/doc/use/icon' },
+            { text: '微前端', link: '/doc/use/micro' },
           ]
         },
         {
